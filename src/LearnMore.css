@@ -1,0 +1,272 @@
+.learn-more {
+  min-height: 100vh;
+  background: #edf5ea;
+  color: #2a2f28;
+}
+
+.learn-more-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(58, 85, 60, 0.15);
+  padding: 20px 0;
+}
+
+.learn-more-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  color: #2e623d;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid #2e623d;
+}
+
+.back-btn:hover {
+  background: #2e623d;
+  color: white;
+}
+
+.learn-more-header h1 {
+  margin: 0;
+  color: #2e623d;
+  font-size: 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.learn-more-content {
+  padding: 40px 0 80px;
+}
+
+.intro-section {
+  text-align: center;
+  margin-bottom: 60px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.intro-section h2 {
+  color: #2e623d;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.intro-section p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #4d614f;
+}
+
+.benefits-section {
+  margin-bottom: 60px;
+}
+
+.benefits-section h2 {
+  text-align: center;
+  color: #2e623d;
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.benefit-card {
+  background: white;
+  padding: 30px 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(23, 68, 42, 0.08);
+  border: 1px solid rgba(73, 111, 83, 0.12);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+}
+
+.benefit-card h3 {
+  color: #2e623d;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.benefit-card p {
+  color: #4d614f;
+  line-height: 1.5;
+}
+
+.features-section {
+  margin-bottom: 60px;
+}
+
+.features-section h2 {
+  text-align: center;
+  color: #2e623d;
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.features-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.feature-item {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(23, 68, 42, 0.06);
+  border: 1px solid rgba(73, 111, 83, 0.1);
+}
+
+.feature-item h4 {
+  color: #2e623d;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.feature-item p {
+  color: #4d614f;
+  line-height: 1.5;
+}
+
+.process-section {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(23, 68, 42, 0.08);
+  border: 1px solid rgba(73, 111, 83, 0.12);
+  margin-bottom: 60px;
+}
+
+.process-section h2 {
+  color: #2e623d;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.process-section p {
+  color: #4d614f;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+.cta-section {
+  text-align: center;
+  background: linear-gradient(135deg, #4f8e50, #2e623d);
+  color: white;
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(47, 110, 61, 0.2);
+}
+
+.cta-section h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.cta-section p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary {
+  background: white;
+  color: #2e623d;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #f0f9f0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(46, 98, 61, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: white;
+  color: #2e623d;
+}
+
+@media (max-width: 768px) {
+  .learn-more-header .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .learn-more-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .intro-section h2 {
+    font-size: 2rem;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-list {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .process-section {
+    padding: 30px 20px;
+  }
+
+  .cta-section {
+    padding: 40px 20px;
+  }
+}

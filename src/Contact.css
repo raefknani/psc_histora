@@ -1,0 +1,262 @@
+.contact {
+  min-height: 100vh;
+  background: #edf5ea;
+  color: #2a2f28;
+}
+
+.contact-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(58, 85, 60, 0.15);
+  padding: 20px 0;
+}
+
+.contact-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  color: #2e623d;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid #2e623d;
+}
+
+.back-btn:hover {
+  background: #2e623d;
+  color: white;
+}
+
+.contact-header h1 {
+  margin: 0;
+  color: #2e623d;
+  font-size: 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  padding: 60px 0;
+}
+
+.contact-info h2 {
+  color: #2e623d;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.contact-info > p {
+  color: #4d614f;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.contact-details {
+  margin-bottom: 40px;
+}
+
+.contact-item {
+  margin-bottom: 30px;
+}
+
+.contact-item h3 {
+  color: #2e623d;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.contact-item p {
+  color: #4d614f;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.social-links h3 {
+  color: #2e623d;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.social-link {
+  color: #3a753f;
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid #3a753f;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.social-link:hover {
+  background: #3a753f;
+  color: white;
+}
+
+.contact-form h2 {
+  color: #2e623d;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.contact-form form {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(23, 68, 42, 0.08);
+  border: 1px solid rgba(73, 111, 83, 0.12);
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  color: #2e623d;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e8e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background: #fafcfa;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4f8e50;
+  background: white;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-btn {
+  width: 100%;
+  background: #4f8e50;
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #3e7a43;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 142, 80, 0.3);
+}
+
+.faq-section {
+  padding: 60px 0;
+  border-top: 1px solid rgba(58, 85, 60, 0.1);
+  margin-top: 40px;
+}
+
+.faq-section h2 {
+  text-align: center;
+  color: #2e623d;
+  font-size: 2rem;
+  margin-bottom: 50px;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.faq-item {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(23, 68, 42, 0.06);
+  border: 1px solid rgba(73, 111, 83, 0.1);
+}
+
+.faq-item h3 {
+  color: #2e623d;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.faq-item p {
+  color: #4d614f;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-header .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .contact-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .contact-info h2,
+  .contact-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-form form {
+    padding: 30px 20px;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-icons {
+    flex-direction: column;
+  }
+
+  .social-link {
+    text-align: center;
+  }
+}
