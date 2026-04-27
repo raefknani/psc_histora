@@ -38,6 +38,21 @@ body {
   font-weight: 800;
   color: #2e623d;
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.brand:hover {
+  color: #1f6e3f;
+  transform: scale(1.02);
+}
+
+.brand img {
+  height: 40px;
+  width: auto;
 }
 
 .menu {
@@ -108,6 +123,12 @@ body {
   gap: 6px;
   z-index: 1001;
   touch-action: manipulation;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+  background: rgba(76, 126, 76, 0.1);
 }
 
 .hamburger-line {
@@ -167,8 +188,10 @@ body {
 }
 
 .mobile-nav-link:hover {
-  background: rgba(76, 126, 76, 0.14);
-  color: #25522f;
+  background: rgba(76, 126, 76, 0.2);
+  color: #1f6e3f;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(76, 126, 76, 0.15);
 }
 
 .cta-btn {
@@ -272,6 +295,13 @@ body {
   max-width: 420px;
   outline: none;
   font-size: 0.96rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(23, 68, 42, 0.1);
+}
+
+.search-input:hover, .search-input:focus {
+  box-shadow: 0 4px 16px rgba(23, 68, 42, 0.15);
+  transform: translateY(-1px);
 }
 
 .btn-primary {
@@ -371,6 +401,14 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.info-card:hover {
+  box-shadow: 0 20px 40px rgba(23, 68, 42, 0.2);
+  border-color: rgba(73, 111, 83, 0.3);
+  transform: translateY(-2px);
 }
 
 .info-card img {
@@ -426,7 +464,7 @@ body {
   }
 
   .brand {
-    font-size: 1.5rem;
+    font-size: 20px;
   }
 
   .menu {

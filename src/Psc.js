@@ -12,6 +12,7 @@ import img6 from "./images/1000043071.jpg";
 import img7 from "./images/1000043072.jpg";
 import img8 from "./images/1000043073.jpg";
 import img9 from "./images/1000043074.jpg";
+import imageLogo from "./images/logo_psc-removebg-preview.png";
 import "./psc.css";
 
 const cardData = [
@@ -85,7 +86,10 @@ function Psc() {
   return (
     <div className="app-root">
       <header className="top-nav">
-        <div className="brand">HISTORA</div>
+        <div className="brand">
+          <img src={imageLogo} alt="Logo" />
+          HISTORA
+        </div>
 
         {/* Hamburger Menu Button */}
         <button
