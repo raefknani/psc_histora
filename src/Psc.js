@@ -3,74 +3,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import videoBg from "./videoplayback (2).webm";
-import img1 from "./images/1000043064.jpg";
-import img2 from "./images/1000043066.jpg";
-import img3 from "./images/1000043068.jpg";
-import img4 from "./images/1000043065.jpg";
-import img5 from "./images/1000043067.jpg";
-import img6 from "./images/1000043071.jpg";
-import img7 from "./images/1000043072.jpg";
-import img8 from "./images/1000043073.jpg";
-import img9 from "./images/1000043074.jpg";
 import imageLogo from "./images/logo_psc-removebg-preview.png";
+import roomsData from "./roomsData";
 import "./psc.css";
 
-const cardData = [
-  {
-    title: "Well Eco-Friendly Homes",
-    text: "Energy-efficient architecture and comfort with nature-friendly spaces.",
-    button: "More details",
-    img: img1,
-  },
-  {
-    title: "Sustainability Living Homes",
-    text: "Smart passive design, renewable systems and modern green lifestyle.",
-    button: "More details",
-    img: img2,
-  },
-  {
-    title: "Comfortable Living",
-    text: "Cozy eco-living spaces in a sustainable, serene community.",
-    button: "More details",
-    img: img3,
-  },
-  {
-    title: "Green Oasis Residences",
-    text: "Luxurious homes surrounded by lush greenery and sustainable gardens.",
-    button: "More details",
-    img: img4,
-  },
-  {
-    title: "Solar-Powered Villas",
-    text: "Modern villas with integrated solar panels and energy storage systems.",
-    button: "More details",
-    img: img5,
-  },
-  {
-    title: "Nature-Integrated Living",
-    text: "Homes designed to blend seamlessly with natural landscapes and ecosystems.",
-    button: "More details",
-    img: img6,
-  },
-  {
-    title: "Eco-Modern Apartments",
-    text: "Contemporary apartments with smart energy management and green features.",
-    button: "More details",
-    img: img7,
-  },
-  {
-    title: "Sustainable Townhouses",
-    text: "Community-focused townhouses with shared green spaces and renewable energy.",
-    button: "More details",
-    img: img8,
-  },
-  {
-    title: "Forest Retreat Homes",
-    text: "Peaceful homes nestled in forest settings with minimal environmental impact.",
-    button: "More details",
-    img: img9,
-  },
-];
+const cardData = [...roomsData];
 
 function Psc() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -267,7 +204,7 @@ function Psc() {
                 <h3>{card.title}</h3>
                 <p>{card.text}</p>
                 <Link to={`/property/${index + 1}`} className="btn-tertiary">
-                  {card.button}
+                  {card.button} view more
                 </Link>
               </div>
             </motion.article>
