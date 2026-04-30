@@ -1,12 +1,12 @@
 const roomFolders = [
-  { folder: "3ers-weriririri", title: "ليلة الحنّاء - العرس في وسطية الدار" },
+  { folder: "3ers weriririri", title: "ليلة الحنّاء - العرس في وسطية الدار" },
   { folder: "9ahweji", title: "القهوة" },
-  { folder: "henna-prep", title: "تحضيرات الحنّاء" },
+  { folder: "henna prep", title: "تحضيرات الحنّاء" },
   { folder: "kitchen", title: "المطبخ" },
   { folder: "nassej", title: "النسّاج" },
   { folder: "s9ifa", title: "بيت السقيفة" },
   { folder: "salon", title: "Salon" },
-  { folder: "si-tayeb", title: "دكّان العطور" },
+  { folder: "si tayeb", title: "دكّان العطور" },
   { folder: "sou9", title: "السوق" },
   { folder: "zaytounaa", title: "المعصرة" },
   { folder: "zhez", title: "بيت الجهاز" },
@@ -20,11 +20,13 @@ function importImages(r) {
   }));
 }
 
-// 📷 load jpg images
-const allImages = importImages(require.context("./histora", true, /\.jpg$/));
+// 📷 load jpg images from histora_imgs
+const allImages = importImages(
+  require.context("./histora_imgs", true, /\.jpg$/),
+);
 
 // 📄 load txt files as STRING (IMPORTANT PART)
-const textFiles = require.context("./histora", true, /\.txt$/);
+const textFiles = require.context("./histora_imgs", true, /\.txt$/);
 
 // helper to get text by folder
 const getText = (folder) => {

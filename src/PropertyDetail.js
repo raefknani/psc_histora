@@ -1,33 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
 import audioNarrative from "./Khali beddalni.mp3";
 import roomsData from "./roomsData";
 import "./PropertyDetail.css";
 
-let propertyDetails = [];
-
-// Add rooms
-const roomProperties = roomsData.map((room) => ({
-  id: room.id,
-  title: room.title,
-  description: room.text,
-  fullDescription: room.text, // 🔥 safer
-  features: [],
-  roomNumber: 1,
-  area: "N/A",
-  floorNumber: "Histora",
-  img: room.img,
-  gallery: room.gallery,
-}));
-
-propertyDetails.push(...roomProperties);
-
 function PropertyDetail() {
   const { id } = useParams();
-  const property = propertyDetails.find((p) => p.id === parseInt(id));
+  const property = roomsData.find((p) => p.id === parseInt(id));
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [expandedImage, setExpandedImage] = useState(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape" && expandedImage !== null) {
+        setExpandedImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [expandedImage]);
 
   if (!property) {
     return (
@@ -56,15 +49,22 @@ function PropertyDetail() {
       <div className="container">
         <div className="property-content">
           <div className="property-gallery">
-            <motion.img
-              src={property.gallery[selectedImageIndex]}
-              alt={property.title}
-              className="main-image"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              key={selectedImageIndex}
-            />
+            <motion.div
+              className="main-image-container"
+              onClick={() => setExpandedImage(selectedImageIndex)}
+              whileHover={{ cursor: "pointer" }}
+            >
+              <motion.img
+                src={property.gallery[selectedImageIndex]}
+                alt={property.title}
+                className="main-image"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                key={selectedImageIndex}
+              />
+              <div className="expand-icon">🔍 Expand</div>
+            </motion.div>
             <div className="gallery-thumbs">
               {property.gallery.map((img, index) => (
                 <img
@@ -90,16 +90,14 @@ function PropertyDetail() {
 
               <div className="property-specs">
                 <div className="spec-item">
-                  <span className="spec-label">Room number:</span>
-                  <span className="spec-value">{property.roomNumber}</span>
+                  <span className="spec-label">Images:</span>
+                  <span className="spec-value">
+                    {property.gallery.length} photos
+                  </span>
                 </div>
                 <div className="spec-item">
-                  <span className="spec-label">Area:</span>
-                  <span className="spec-value">{property.area}</span>
-                </div>
-                <div className="spec-item">
-                  <span className="spec-label">Floor number:</span>
-                  <span className="spec-value">{property.floorNumber}</span>
+                  <span className="spec-label">Category:</span>
+                  <span className="spec-value">{property.title}</span>
                 </div>
               </div>
             </motion.div>
@@ -110,12 +108,8 @@ function PropertyDetail() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <h3>Key Features</h3>
-              <ul>
-                {property.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
+              <h3>Description</h3>
+              <p>{property.text}</p>
             </motion.div>
 
             <motion.div
@@ -186,6 +180,73 @@ function PropertyDetail() {
           </div>
         </section>
       </div>
+
+      {expandedImage !== null && (
+        <motion.div
+          className="image-modal-overlay"
+          onClick={() => setExpandedImage(null)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="image-modal"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+          >
+            <button
+              className="modal-close-btn"
+              onClick={() => setExpandedImage(null)}
+            >
+              ✕
+            </button>
+
+            <div className="modal-image-container">
+              <motion.img
+                src={property.gallery[expandedImage]}
+                alt="Expanded view"
+                className="expanded-image"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                key={expandedImage}
+              />
+            </div>
+
+            <div className="modal-navigation">
+              <button
+                className="nav-btn prev-btn"
+                onClick={() =>
+                  setExpandedImage(
+                    expandedImage === 0
+                      ? property.gallery.length - 1
+                      : expandedImage - 1,
+                  )
+                }
+              >
+                ← Previous
+              </button>
+              <span className="image-counter">
+                {expandedImage + 1} / {property.gallery.length}
+              </span>
+              <button
+                className="nav-btn next-btn"
+                onClick={() =>
+                  setExpandedImage(
+                    expandedImage === property.gallery.length - 1
+                      ? 0
+                      : expandedImage + 1,
+                  )
+                }
+              >
+                Next →
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 }

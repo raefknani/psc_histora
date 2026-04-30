@@ -3,11 +3,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import videoBg from "./videoplayback (2).webm";
-import imageLogo from "./images/logo_psc-removebg-preview.png";
 import roomsData from "./roomsData";
 import "./psc.css";
-
-const cardData = [...roomsData];
 
 function Psc() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -23,10 +20,7 @@ function Psc() {
   return (
     <div className="app-root">
       <header className="top-nav">
-        <div className="brand">
-          <img src={imageLogo} alt="Logo" />
-          HISTORA
-        </div>
+        <div className="brand">HISTORA</div>
 
         {/* Hamburger Menu Button */}
         <button
@@ -192,7 +186,7 @@ function Psc() {
         </div>
 
         <div className="card-grid">
-          {cardData.map((card, index) => (
+          {roomsData.map((card, index) => (
             <motion.article
               key={index}
               className="info-card"
@@ -202,9 +196,9 @@ function Psc() {
               <img src={card.img} alt={card.title} />
               <div className="card-text">
                 <h3>{card.title}</h3>
-                <p>{card.text}</p>
+                {/* <p>{card.text}</p> */}
                 <Link to={`/property/${index + 1}`} className="btn-tertiary">
-                  {card.button} view more
+                  {card.button} View Details
                 </Link>
               </div>
             </motion.article>
