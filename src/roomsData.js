@@ -20,9 +20,22 @@ function importImages(r) {
   }));
 }
 
+// 🎬 VIDEOS loader
+function importVideos(r) {
+  return r.keys().map((key) => ({
+    path: key,
+    src: r(key),
+  }));
+}
+
 // 📷 load jpg images from histora_imgs
 const allImages = importImages(
   require.context("./histora_imgs", true, /\.jpg$/),
+);
+
+// 🎥 load mp4/webm videos from histora_imgs
+const allVideos = importVideos(
+  require.context("./histora_imgs", true, /\.(mp4|webm)$/),
 );
 
 // 📄 load txt files as URL references
@@ -47,6 +60,11 @@ const roomsData = roomFolders.map((room, index) => {
     .map((img) => img.src)
     .sort();
 
+  const roomVideos = allVideos
+    .filter((video) => video.path.includes(baseFolder))
+    .map((video) => video.src)
+    .sort();
+
   const textUrls = getTextUrlsByFolder(room.folder);
 
   return {
@@ -59,6 +77,7 @@ const roomsData = roomFolders.map((room, index) => {
     fullDescription: "",
     img: roomImages[0] || "",
     gallery: roomImages,
+    videos: roomVideos,
   };
 });
 

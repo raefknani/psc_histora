@@ -57,6 +57,7 @@ function PropertyDetail() {
   const property = roomsData.find((p) => p.id === parseInt(id));
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState(null);
+  const [expandedVideo, setExpandedVideo] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
   const [isDragging, setIsDragging] = useState(false);
 
@@ -73,17 +74,18 @@ function PropertyDetail() {
   });
   const [textLoading, setTextLoading] = useState(false);
 
-  // Gestion de la touche Echap pour fermer l'image agrandie
+  // Gestion de la touche Echap pour fermer l'image ou la vidéo agrandie
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Escape" && expandedImage !== null) {
-        setExpandedImage(null);
+      if (event.key === "Escape") {
+        if (expandedImage !== null) setExpandedImage(null);
+        if (expandedVideo) setExpandedVideo(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [expandedImage]);
+  }, [expandedImage, expandedVideo]);
 
   // Scroll en haut quand on change de propriété
   useEffect(() => {
@@ -343,7 +345,39 @@ function PropertyDetail() {
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 220 }}
             >
-              <div className="experience-icon">🎥</div>
+              {property.videos?.length ? (
+                <div
+                  className="experience-video-wrapper"
+                  onClick={() => setExpandedVideo(true)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      setExpandedVideo(true);
+                    }
+                  }}
+                >
+                  <video
+                    className="experience-video"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  >
+                    <source
+                      src={property.videos[0]}
+                      type={
+                        property.videos[0].endsWith(".webm")
+                          ? "video/webm"
+                          : "video/mp4"
+                      }
+                    />
+                    Your browser does not support video playback.
+                  </video>
+                </div>
+              ) : (
+                <div className="experience-icon">🎥</div>
+              )}
               <h3>Interactive Animation</h3>
               <p>
                 Simulated walkthrough and scene animation help you feel the flow
@@ -432,6 +466,44 @@ function PropertyDetail() {
                 Next →
               </button>
             </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Modal pour la vidéo agrandie */}
+      {expandedVideo && property.videos?.length && (
+        <motion.div
+          className="video-modal-overlay"
+          onClick={() => setExpandedVideo(false)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="video-modal"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+          >
+            <button
+              className="modal-close-btn"
+              onClick={() => setExpandedVideo(false)}
+            >
+              ✕
+            </button>
+
+            <video className="expanded-video" autoPlay muted loop playsInline>
+              <source
+                src={property.videos[0]}
+                type={
+                  property.videos[0].endsWith(".webm")
+                    ? "video/webm"
+                    : "video/mp4"
+                }
+              />
+              Your browser does not support video playback.
+            </video>
           </motion.div>
         </motion.div>
       )}
