@@ -5,11 +5,34 @@ import audioNarrative from "./Khali beddalni.mp3";
 import roomsData from "./roomsData";
 import "./PropertyDetail.css";
 
+const parseLanguageSections = (text) => {
+  const lines = (text || "").split(/\r?\n/);
+  const sections = { AR: "", FR: "", ENG: "" };
+  let currentLang = null;
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    const match = trimmed.match(/^\[(AR|FR|ENG)\]$/);
+    if (match) {
+      currentLang = match[1];
+      return;
+    }
+
+    if (!currentLang) return;
+    sections[currentLang] += (sections[currentLang] ? "\n" : "") + line;
+  });
+
+  return sections;
+};
+
 function PropertyDetail() {
   const { id } = useParams();
   const property = roomsData.find((p) => p.id === parseInt(id));
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [loadedLanguageTexts, setLoadedLanguageTexts] = useState({ AR: "", FR: "", ENG: "" });
+  const [textLoading, setTextLoading] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -21,6 +44,59 @@ function PropertyDetail() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [expandedImage]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [property]);
+
+  useEffect(() => {
+    if (!property) return;
+    const urls = property.textUrls || property.texts || [];
+    if (!urls.length) {
+      setLoadedLanguageTexts({ AR: "", FR: "", ENG: "" });
+      setTextLoading(false);
+      return;
+    }
+
+    setTextLoading(true);
+    Promise.all(
+      urls.map(async (url) => {
+        const response = await fetch(url);
+        return await response.text();
+      }),
+    )
+      .then((rawTextList) => {
+        const merged = { AR: "", FR: "", ENG: "" };
+
+        rawTextList.forEach((rawText) => {
+          const sections = parseLanguageSections(rawText);
+          Object.keys(sections).forEach((lang) => {
+            const sectionText = sections[lang].trim();
+            if (!sectionText) return;
+            merged[lang] += (merged[lang] ? "\n\n" : "") + sectionText;
+          });
+        });
+
+        setLoadedLanguageTexts(merged);
+        setTextLoading(false);
+      })
+      .catch(() => {
+        setLoadedLanguageTexts({ AR: "", FR: "", ENG: "" });
+        setTextLoading(false);
+      });
+  }, [property]);
+
+  useEffect(() => {
+    if (!property) return;
+
+    const languages = Object.keys(loadedLanguageTexts).filter(
+      (lang) => loadedLanguageTexts[lang]?.trim(),
+    );
+
+    if (languages.length && !languages.includes(selectedLanguage)) {
+      setSelectedLanguage(languages[0] || "ENG");
+    }
+  }, [loadedLanguageTexts, property, selectedLanguage]);
 
   if (!property) {
     return (
@@ -86,7 +162,25 @@ function PropertyDetail() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h2>Overview</h2>
-              <p className="description">{property.fullDescription}</p>
+              <div className="language-toggle">
+                {Object.keys(loadedLanguageTexts)
+                  .filter((lang) => loadedLanguageTexts[lang]?.trim())
+                  .map((lang) => (
+                    <button
+                      key={lang}
+                      type="button"
+                      className={`lang-btn ${selectedLanguage === lang ? "active" : ""}`}
+                      onClick={() => setSelectedLanguage(lang)}
+                    >
+                      {lang}
+                    </button>
+                  ))}
+              </div>
+              <p className="description">
+                {textLoading
+                  ? "Loading description..."
+                  : loadedLanguageTexts[selectedLanguage]?.trim() || property.text || "No description available."}
+              </p>
 
               <div className="property-specs">
                 <div className="spec-item">
@@ -109,7 +203,11 @@ function PropertyDetail() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <h3>Description</h3>
-              <p>{property.text}</p>
+              <p>
+                {textLoading
+                  ? "Loading description..."
+                  : loadedLanguageTexts[selectedLanguage]?.trim() || property.text || "No description available."}
+              </p>
             </motion.div>
 
             <motion.div

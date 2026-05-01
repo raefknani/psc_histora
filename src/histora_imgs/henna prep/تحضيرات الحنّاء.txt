@@ -1,3 +1,4 @@
+[AR]
 تحضيرات الحنّاء
 في بيت أمّها وأبيها، جلست خديجة تستعدّ ليوم الحنّاء ولِلجلوة، في زمنٍ لم تكن فيه ليلة العرس تُقام كما تُقام اليوم، بل كانت الحنّاء هي المناسبة الكبرى التي تتهيّأ لها العروس بكلّ ما تحمله من طقوس ومعانٍ.
 لم يكن معها في تلك اللحظة سوى المشاطة، ترافقها بهدوء وتعتني بتفاصيل زينتها. وكان السرير مفروشًا بما تحتاجه خديجة في تلك المناسبة بعض أدوات الزينة التقليدية، وكلّ ما يلزمها لتظهر في أبهى هيئة.
@@ -6,7 +7,7 @@
 وحين اكتملت الزينة، لبست خديجة خلخالها، ثم حلّت شعرها من العُكصة التي ظلّ معقودًا بها مدّة، حتى يصبح أكثر رطوبة وانسدالًا. 
 وهكذا بدت خديجة، في بيت أهلها، واقفة على عتبة مرحلة جديدة من حياتها، يحيط بها صمت البيت القديم، وترافقها يد المشاطة، وتتناثر حولها تفاصيل الزينة الموروثة. لم تكن تلك الاستعدادات مجرّد تهيئة لليلة الحنّاء، بل كانت طقسًا عميقًا يحمل في كلّ تفصيل منه شيئًا من الفرح، وشيئًا من الدعاء، وشيئًا من ذاكرة الأمهات والجدّات.
 
-
+[FR]
 Les préparatifs du henné
 Dans la maison de sa mère et de son père, Khadija était assise, se préparant pour le jour du henné et de la jalwa, à une époque où la nuit de noces n’était pas célébrée comme aujourd’hui. Le henné constituait alors la grande occasion, celle à laquelle la mariée se préparait avec tout ce qu’elle comportait de rites et de significations.
 En ce moment‑là, seule la meshata était à ses côtés ; elle l’accompagnait avec calme et prenait soin des moindres détails de sa parure. Le lit était couvert de tout ce dont Khadija avait besoin pour cette occasion : quelques outils traditionnels de parure et tous les accessoires nécessaires pour qu’elle apparaisse sous son plus beau jour.
@@ -14,8 +15,7 @@ Khadija revêtit la tenue du henné transmise dans la famille de génération en
 La meshata se chargea ensuite de l’embellir : elle appliqua un maquillage traditionnel appelé al‑lijam, qui, à l’époque, était considéré comme un signe de bon augure et de bénédiction. Il était composé de matières naturelles comme le barouq et le hoummayr. Les mains de Khadija furent ensuite ornées de henné, selon un motif appelé « la poule et ses poussins », un dessin populaire symbolisant la fécondité, l’abondance de descendance et l’attachement du mari à son épouse, afin qu’il ne la quitte pas et ne prenne pas une autre femme.
 Lorsque la parure fut achevée, Khadija enfila son bracelet de cheville, puis défit ses cheveux de la ouksa dans laquelle ils étaient restés noués durant un certain temps, afin qu’ils deviennent plus souples et retombent naturellement.
 Ainsi apparaissait Khadija, dans la maison de ses parents, debout sur le seuil d’une nouvelle étape de sa vie, enveloppée par le silence de la vieille demeure, accompagnée de la main de la meshata, et entourée des détails d’une parure héritée. Ces préparatifs n’étaient pas une simple mise en beauté pour la nuit du henné : ils formaient un rituel profond, où chaque geste contenait un peu de joie, un peu de prière, et un peu de la mémoire des mères et des grands‑mères.
-
-
+[ENG]
 Henna Preparations
 In the house of her mother and father, Khadija sat preparing for the henna day and the jalwa, at a time when the wedding night was not celebrated as it is today. Henna was the major occasion then—the central event for which the bride prepared with all its rituals and meanings.
 At that moment, only the meshata was with her, accompanying her quietly and attending to every detail of her adornment. The bed was laid out with everything Khadija needed for the occasion: a few traditional beauty tools and all that was required for her to appear in her finest form.

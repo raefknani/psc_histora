@@ -25,16 +25,18 @@ const allImages = importImages(
   require.context("./histora_imgs", true, /\.jpg$/),
 );
 
-// 📄 load txt files as STRING (IMPORTANT PART)
+// 📄 load txt files as URL references
 const textFiles = require.context("./histora_imgs", true, /\.txt$/);
 
-// helper to get text by folder
-const getText = (folder) => {
-  const match = textFiles.keys().find((key) => key.includes(`/${folder}/`));
+const getTextUrlsByFolder = (folder) => {
+  const folderKeys = textFiles
+    .keys()
+    .filter((key) => key.startsWith(`./${folder}/`));
 
-  if (!match) return "";
-
-  return textFiles(match).default || textFiles(match);
+  return folderKeys.map((key) => {
+    const fileResource = textFiles(key);
+    return fileResource?.default || fileResource;
+  });
 };
 
 const roomsData = roomFolders.map((room, index) => {
@@ -45,16 +47,16 @@ const roomsData = roomFolders.map((room, index) => {
     .map((img) => img.src)
     .sort();
 
-  const text = getText(room.folder);
+  const textUrls = getTextUrlsByFolder(room.folder);
 
   return {
     id: index + 1,
     title: room.title,
-
-    // ✅ extracted from txt file
-    text,
-    fullDescription: text,
-
+    textUrls,
+    texts: textUrls,
+    languageTexts: { AR: "", FR: "", ENG: "" },
+    text: "",
+    fullDescription: "",
     img: roomImages[0] || "",
     gallery: roomImages,
   };

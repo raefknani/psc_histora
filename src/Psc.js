@@ -139,7 +139,7 @@ function Psc() {
             transition={{ duration: 0.8 }}
             className="subheading"
           >
-            Find Eco-Friendly Homes Easily
+            Explore homes rooted in heritage and tradition.
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -147,7 +147,7 @@ function Psc() {
             transition={{ duration: 1, delay: 0.2 }}
             className="hero-title"
           >
-            Discover Your Green Sanctuary
+            Discover Histora
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -155,18 +155,18 @@ function Psc() {
             transition={{ duration: 1.2, delay: 0.4 }}
             className="hero-text"
           >
-            Curated eco homes, sustainable estates and serene nature retreats.
-            Join the next wave of green living.
+            Browse authentic households, cultural spaces, and preserved
+            interiors from everyday life in traditional homes.
           </motion.p>
 
-          <div className="hero-actions">
+          {/* <div className="hero-actions">
             <input
               type="text"
               placeholder="Search location, type, budget..."
               className="search-input"
             />
             <button className="btn-primary">Browse Properties</button>
-          </div>
+          </div> */}
         </div>
       </section>
 

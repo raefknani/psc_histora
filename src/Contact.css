@@ -1,13 +1,13 @@
 .contact {
   min-height: 100vh;
-  background: #edf5ea;
+  background: #f2dec8;
   color: #2a2f28;
 }
 
 .contact-header {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(58, 85, 60, 0.15);
+  border-bottom: 1px solid rgba(140, 90, 60, 0.15);
   padding: 20px 0;
 }
 
@@ -21,23 +21,23 @@
 }
 
 .back-btn {
-  color: #2e623d;
+  color: #8c5a3c;
   text-decoration: none;
   font-weight: 600;
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.3s ease;
-  border: 1px solid #2e623d;
+  border: 1px solid #8c5a3c;
 }
 
 .back-btn:hover {
-  background: #2e623d;
+  background: #8c5a3c;
   color: white;
 }
 
 .contact-header h1 {
   margin: 0;
-  color: #2e623d;
+  color: #8c5a3c;
   font-size: 2rem;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .contact-info h2 {
-  color: #2e623d;
+  color: #8c5a3c;
   font-size: 2rem;
   margin-bottom: 20px;
 }
@@ -76,7 +76,7 @@
 }
 
 .contact-item h3 {
-  color: #2e623d;
+  color: #8c5a3c;
   margin-bottom: 8px;
   font-size: 1.1rem;
 }
@@ -100,22 +100,22 @@
 }
 
 .social-link {
-  color: #3a753f;
+  color: #8c5a3c;
   text-decoration: none;
   padding: 8px 12px;
-  border: 1px solid #3a753f;
+  border: 1px solid #8c5a3c;
   border-radius: 6px;
   transition: all 0.3s ease;
   font-size: 0.9rem;
 }
 
 .social-link:hover {
-  background: #3a753f;
+  background: #8c5a3c;
   color: white;
 }
 
 .contact-form h2 {
-  color: #2e623d;
+  color: #8c5a3c;
   font-size: 2rem;
   margin-bottom: 30px;
 }
@@ -124,8 +124,8 @@
   background: white;
   padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(23, 68, 42, 0.08);
-  border: 1px solid rgba(73, 111, 83, 0.12);
+  box-shadow: 0 10px 24px rgba(140, 90, 60, 0.08);
+  border: 1px solid rgba(140, 90, 60, 0.12);
 }
 
 .form-group {
@@ -134,7 +134,7 @@
 
 .form-group label {
   display: block;
-  color: #2e623d;
+  color: #8c5a3c;
   font-weight: 600;
   margin-bottom: 8px;
   font-size: 0.95rem;
@@ -156,7 +156,7 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #4f8e50;
+  border-color: #8c5a3c;
   background: white;
 }
 
@@ -167,7 +167,7 @@
 
 .submit-btn {
   width: 100%;
-  background: #4f8e50;
+  background: #8c5a3c;
   color: white;
   border: none;
   padding: 16px 24px;
@@ -179,20 +179,20 @@
 }
 
 .submit-btn:hover {
-  background: #3e7a43;
+  background: #7c4c33;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(79, 142, 80, 0.3);
+  box-shadow: 0 6px 16px rgba(140, 90, 60, 0.3);
 }
 
 .faq-section {
   padding: 60px 0;
-  border-top: 1px solid rgba(58, 85, 60, 0.1);
+  border-top: 1px solid rgba(140, 90, 60, 0.1);
   margin-top: 40px;
 }
 
 .faq-section h2 {
   text-align: center;
-  color: #2e623d;
+  color: #8c5a3c;
   font-size: 2rem;
   margin-bottom: 50px;
 }
@@ -207,12 +207,12 @@
   background: white;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(23, 68, 42, 0.06);
-  border: 1px solid rgba(73, 111, 83, 0.1);
+  box-shadow: 0 6px 16px rgba(140, 90, 60, 0.06);
+  border: 1px solid rgba(140, 90, 60, 0.1);
 }
 
 .faq-item h3 {
-  color: #2e623d;
+  color: #8c5a3c;
   margin-bottom: 12px;
   font-size: 1.1rem;
 }
