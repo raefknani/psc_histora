@@ -58,6 +58,7 @@ function PropertyDetail() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [isDragging, setIsDragging] = useState(false);
 
   // États pour les textes chargés
   const [loadedLongTexts, setLoadedLongTexts] = useState({
@@ -193,13 +194,36 @@ function PropertyDetail() {
           <div className="property-gallery">
             <motion.div
               className="main-image-container"
-              onClick={() => setExpandedImage(selectedImageIndex)}
+              onClick={() =>
+                !isDragging && setExpandedImage(selectedImageIndex)
+              }
               whileHover={{ cursor: "pointer" }}
             >
               <motion.img
                 src={property.gallery[selectedImageIndex]}
                 alt={property.title}
                 className="main-image"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.13}
+                onDragStart={() => setIsDragging(true)}
+                onDragEnd={(_, info) => {
+                  setIsDragging(false);
+                  if (info.offset.x < -90) {
+                    setSelectedImageIndex((prevIndex) =>
+                      prevIndex === property.gallery.length - 1
+                        ? 0
+                        : prevIndex + 1,
+                    );
+                  } else if (info.offset.x > 90) {
+                    setSelectedImageIndex((prevIndex) =>
+                      prevIndex === 0
+                        ? property.gallery.length - 1
+                        : prevIndex - 1,
+                    );
+                  }
+                }}
+                whileTap={{ cursor: "grabbing" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
@@ -262,33 +286,23 @@ function PropertyDetail() {
                 </div>
               </div>
             </motion.div>
-
-            {/* DESCRIPTION - Affiche le Long Description */}
-            <motion.div
-              className="property-features"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <h3>Description</h3>
-              <p>
-                {textLoading
-                  ? "Loading description..."
-                  : loadedLongTexts[selectedLanguage]?.trim() ||
-                    "No description available."}
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="property-actions"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <button className="btn-secondary">Download Brochure</button>
-            </motion.div>
           </div>
         </div>
+
+        <motion.div
+          className="property-features property-description-fullwidth"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <h3>Description</h3>
+          <p className="description description-long">
+            {textLoading
+              ? "Loading description..."
+              : loadedLongTexts[selectedLanguage]?.trim() ||
+                "No description available."}
+          </p>
+        </motion.div>
 
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
