@@ -40,7 +40,7 @@ body {
   letter-spacing: 1px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   transition: all 0.3s ease;
   cursor: pointer;
 }
@@ -51,8 +51,9 @@ body {
 }
 
 .brand img {
-  height: 40px;
+  height: 45px;
   width: auto;
+  display: block;
 }
 
 .menu {
@@ -299,7 +300,8 @@ body {
   box-shadow: 0 2px 8px rgba(140, 90, 60, 0.1);
 }
 
-.search-input:hover, .search-input:focus {
+.search-input:hover,
+.search-input:focus {
   box-shadow: 0 4px 16px rgba(140, 90, 60, 0.15);
   transform: translateY(-1px);
 }

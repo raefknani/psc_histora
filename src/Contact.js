@@ -37,9 +37,9 @@ function Contact() {
       <header className="contact-header">
         <div className="container">
           <Link to="/" className="back-btn">
-            ← Back to Properties
+            ← Back to Spaces
           </Link>
-          <h1>Contact Us</h1>
+          <h1>Contact Histora</h1>
         </div>
       </header>
 
@@ -53,25 +53,26 @@ function Contact() {
           >
             <h2>Get In Touch</h2>
             <p>
-              Ready to find your perfect eco-friendly home? Our team of experts
-              is here to help you discover sustainable living solutions that fit
-              your lifestyle and values.
+              Interested in exploring Histora's cultural spaces and heritage
+              traditions? Our team is here to help you discover these authentic
+              narratives and connect with our collection of preserved interiors
+              and traditional homes.
             </p>
 
             <div className="contact-details">
               <div className="contact-item">
-                <h3>📍 Office Location</h3>
+                <h3>📍 Location</h3>
                 <p>
-                  123 Green Valley Drive
+                  Tunis, Tunisia
                   <br />
-                  Eco City, EC 12345
+                  Middle Medina
                 </p>
               </div>
 
               <div className="contact-item">
                 <h3>📞 Phone</h3>
                 <p>
-                  (555) 123-ECO-1
+                  +216 (XX) XXX-XXXX
                   <br />
                   Mon-Fri: 9AM-6PM
                 </p>
@@ -80,9 +81,9 @@ function Contact() {
               <div className="contact-item">
                 <h3>✉️ Email</h3>
                 <p>
-                  info@ecohomes.com
+                  histora.psc@gmail.com
                   <br />
-                  support@ecohomes.com
+                  {/* tours@histora.com */}
                 </p>
               </div>
 
@@ -98,7 +99,7 @@ function Contact() {
               </div>
             </div>
 
-            <div className="social-links">
+            {/* <div className="social-links">
               <h3>Follow Us</h3>
               <div className="social-icons">
                 <button
@@ -126,7 +127,7 @@ function Contact() {
                   💼 LinkedIn
                 </button>
               </div>
-            </div>
+            </div> */}
           </motion.div>
 
           <motion.div
@@ -182,10 +183,10 @@ function Contact() {
                   required
                 >
                   <option value="">Select a subject</option>
-                  <option value="property-inquiry">Property Inquiry</option>
-                  <option value="viewing-request">Schedule Viewing</option>
-                  <option value="general-info">General Information</option>
-                  <option value="partnership">Partnership Opportunities</option>
+                  <option value="space-inquiry">Space Inquiry</option>
+                  <option value="tour-request">Request a Tour</option>
+                  <option value="collaboration">Collaboration</option>
+                  <option value="cultural-exchange">Cultural Exchange</option>
                   <option value="other">Other</option>
                 </select>
               </div>
@@ -198,7 +199,7 @@ function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   rows="6"
-                  placeholder="Tell us about your requirements..."
+                  placeholder="Tell us about your interest in Histora..."
                   required
                 ></textarea>
               </div>
@@ -219,35 +220,38 @@ function Contact() {
           <h2>Frequently Asked Questions</h2>
           <div className="faq-grid">
             <div className="faq-item">
-              <h3>How do I schedule a property viewing?</h3>
+              <h3>How can I visit the spaces?</h3>
               <p>
                 Contact us through the form above or call our office directly.
-                We'll arrange a convenient time for you to visit.
+                We arrange guided tours at scheduled times to preserve the
+                authenticity of each space.
               </p>
             </div>
 
             <div className="faq-item">
-              <h3>What eco-friendly features do your homes include?</h3>
+              <h3>What spaces are featured in Histora?</h3>
               <p>
-                Our properties feature solar panels, energy-efficient
-                appliances, sustainable materials, rainwater harvesting, and
-                smart home technology.
+                We showcase 11 authentic spaces including traditional homes, the
+                coffeehouse, olive press, weaver's studio, marketplace, kitchen,
+                and henna preparation rooms from historical periods.
               </p>
             </div>
 
             <div className="faq-item">
-              <h3>Do you offer financing assistance?</h3>
+              <h3>Is photography allowed during tours?</h3>
               <p>
-                Yes, we work with several green financing partners who offer
-                special rates for eco-friendly home purchases.
+                Yes, photography is permitted in most spaces. We ask that
+                visitors respect the cultural significance of each exhibit and
+                maintain the integrity of traditional items.
               </p>
             </div>
 
             <div className="faq-item">
-              <h3>How long does the buying process take?</h3>
+              <h3>Are there group tour options?</h3>
               <p>
-                The process typically takes 30-60 days from initial inquiry to
-                closing, depending on financing and property availability.
+                Yes, we offer group tours for schools, organizations, and
+                cultural institutions. Contact us to arrange a customized
+                experience for your group.
               </p>
             </div>
           </div>

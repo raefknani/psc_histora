@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import videoBg from "./videoplayback (2).webm";
 import roomsData from "./roomsData";
+import logo from "./images/logo_psc-removebg-preview.png";
 import "./psc.css";
 
 function Psc() {
@@ -20,7 +21,10 @@ function Psc() {
   return (
     <div className="app-root">
       <header className="top-nav">
-        <div className="brand">HISTORA</div>
+        <div className="brand">
+          <img src={logo} alt="Histora Logo" />
+          HISTORA
+        </div>
 
         {/* Hamburger Menu Button */}
         <button
@@ -231,7 +235,7 @@ function Psc() {
           </div>
           <div className="footer-item">
             <h4>Contact</h4>
-            <p>Email: .........</p>
+            <p>Email: histora.psc@gmail.com</p>
             <p>Phone: +216 ........</p>
           </div>
         </div>
