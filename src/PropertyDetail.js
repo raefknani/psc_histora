@@ -4,24 +4,52 @@ import { motion } from "framer-motion";
 import roomsData from "./roomsData";
 import "./PropertyDetail.css";
 
-const parseLanguageSections = (text) => {
+// Parse le fichier texte pour extraire Long Description et Short Description
+const parseFullTextSections = (text) => {
   const lines = (text || "").split(/\r?\n/);
-  const sections = { AR: "", FR: "", ENG: "" };
+  const result = {
+    long: { AR: "", FR: "", ENG: "" },
+    short: { AR: "", FR: "", ENG: "" },
+  };
+
   let currentLang = null;
+  let currentType = null; // "long" ou "short"
 
   lines.forEach((line) => {
     const trimmed = line.trim();
-    const match = trimmed.match(/^\[(AR|FR|ENG)\]$/);
-    if (match) {
-      currentLang = match[1];
+
+    // Détecter la langue [AR], [FR], [ENG]
+    const langMatch = trimmed.match(/^\[(AR|FR|ENG)\]$/);
+    if (langMatch) {
+      currentLang = langMatch[1];
       return;
     }
 
-    if (!currentLang) return;
-    sections[currentLang] += (sections[currentLang] ? "\n" : "") + line;
+    // Détecter Long Description
+    if (trimmed.includes("[Long Description") || trimmed === "(Description)") {
+      currentType = "long";
+      return;
+    }
+
+    // Détecter Short Description
+    if (trimmed.includes("[Short Description") || trimmed === "(Overview)") {
+      currentType = "short";
+      return;
+    }
+
+    if (!currentLang || !currentType) return;
+
+    result[currentType][currentLang] +=
+      (result[currentType][currentLang] ? "\n" : "") + line;
   });
 
-  return sections;
+  // Nettoyer les résultats (enlever les espaces en trop)
+  Object.keys(result.long).forEach((lang) => {
+    result.long[lang] = result.long[lang].trim();
+    result.short[lang] = result.short[lang].trim();
+  });
+
+  return result;
 };
 
 function PropertyDetail() {
@@ -30,13 +58,21 @@ function PropertyDetail() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
-  const [loadedLanguageTexts, setLoadedLanguageTexts] = useState({
+
+  // États pour les textes chargés
+  const [loadedLongTexts, setLoadedLongTexts] = useState({
+    AR: "",
+    FR: "",
+    ENG: "",
+  });
+  const [loadedShortTexts, setLoadedShortTexts] = useState({
     AR: "",
     FR: "",
     ENG: "",
   });
   const [textLoading, setTextLoading] = useState(false);
 
+  // Gestion de la touche Echap pour fermer l'image agrandie
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape" && expandedImage !== null) {
@@ -48,15 +84,18 @@ function PropertyDetail() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [expandedImage]);
 
+  // Scroll en haut quand on change de propriété
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [property]);
 
+  // Chargement des fichiers texte
   useEffect(() => {
     if (!property) return;
     const urls = property.textUrls || property.texts || [];
     if (!urls.length) {
-      setLoadedLanguageTexts({ AR: "", FR: "", ENG: "" });
+      setLoadedLongTexts({ AR: "", FR: "", ENG: "" });
+      setLoadedShortTexts({ AR: "", FR: "", ENG: "" });
       setTextLoading(false);
       return;
     }
@@ -69,37 +108,55 @@ function PropertyDetail() {
       }),
     )
       .then((rawTextList) => {
-        const merged = { AR: "", FR: "", ENG: "" };
+        const mergedLong = { AR: "", FR: "", ENG: "" };
+        const mergedShort = { AR: "", FR: "", ENG: "" };
 
         rawTextList.forEach((rawText) => {
-          const sections = parseLanguageSections(rawText);
-          Object.keys(sections).forEach((lang) => {
-            const sectionText = sections[lang].trim();
-            if (!sectionText) return;
-            merged[lang] += (merged[lang] ? "\n\n" : "") + sectionText;
+          const { long, short } = parseFullTextSections(rawText);
+
+          // Fusion des longs textes
+          Object.keys(long).forEach((lang) => {
+            if (long[lang]?.trim()) {
+              mergedLong[lang] += (mergedLong[lang] ? "\n\n" : "") + long[lang];
+            }
+          });
+
+          // Fusion des courts textes
+          Object.keys(short).forEach((lang) => {
+            if (short[lang]?.trim()) {
+              mergedShort[lang] +=
+                (mergedShort[lang] ? "\n\n" : "") + short[lang];
+            }
           });
         });
 
-        setLoadedLanguageTexts(merged);
+        setLoadedLongTexts(mergedLong);
+        setLoadedShortTexts(mergedShort);
         setTextLoading(false);
       })
-      .catch(() => {
-        setLoadedLanguageTexts({ AR: "", FR: "", ENG: "" });
+      .catch((error) => {
+        console.error("Error loading text files:", error);
+        setLoadedLongTexts({ AR: "", FR: "", ENG: "" });
+        setLoadedShortTexts({ AR: "", FR: "", ENG: "" });
         setTextLoading(false);
       });
   }, [property]);
 
+  // Sélection automatique d'une langue disponible
   useEffect(() => {
     if (!property) return;
 
-    const languages = Object.keys(loadedLanguageTexts).filter((lang) =>
-      loadedLanguageTexts[lang]?.trim(),
+    const availableLanguages = Object.keys(loadedLongTexts).filter(
+      (lang) => loadedLongTexts[lang]?.trim() || loadedShortTexts[lang]?.trim(),
     );
 
-    if (languages.length && !languages.includes(selectedLanguage)) {
-      setSelectedLanguage(languages[0] || "ENG");
+    if (
+      availableLanguages.length &&
+      !availableLanguages.includes(selectedLanguage)
+    ) {
+      setSelectedLanguage(availableLanguages[0] || "ENG");
     }
-  }, [loadedLanguageTexts, property, selectedLanguage]);
+  }, [loadedLongTexts, loadedShortTexts, property, selectedLanguage]);
 
   if (!property) {
     return (
@@ -114,6 +171,11 @@ function PropertyDetail() {
     );
   }
 
+  // Langues disponibles pour l'affichage
+  const availableLanguages = Object.keys(loadedShortTexts).filter((lang) =>
+    loadedShortTexts[lang]?.trim(),
+  );
+
   return (
     <div className="property-detail">
       <header className="detail-header">
@@ -127,6 +189,7 @@ function PropertyDetail() {
 
       <div className="container">
         <div className="property-content">
+          {/* Galerie d'images */}
           <div className="property-gallery">
             <motion.div
               className="main-image-container"
@@ -142,7 +205,6 @@ function PropertyDetail() {
                 transition={{ duration: 0.8 }}
                 key={selectedImageIndex}
               />
-              {/* <div className="expand-icon">🔍 Expand</div> */}
             </motion.div>
             <div className="gallery-thumbs">
               {property.gallery.map((img, index) => (
@@ -158,6 +220,7 @@ function PropertyDetail() {
           </div>
 
           <div className="property-info">
+            {/* OVERVIEW - Affiche le Short Description */}
             <motion.div
               className="property-overview"
               initial={{ opacity: 0, y: 20 }}
@@ -165,10 +228,9 @@ function PropertyDetail() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h2>Overview</h2>
-              <div className="language-toggle">
-                {Object.keys(loadedLanguageTexts)
-                  .filter((lang) => loadedLanguageTexts[lang]?.trim())
-                  .map((lang) => (
+              {availableLanguages.length > 0 && (
+                <div className="language-toggle">
+                  {availableLanguages.map((lang) => (
                     <button
                       key={lang}
                       type="button"
@@ -178,13 +240,13 @@ function PropertyDetail() {
                       {lang}
                     </button>
                   ))}
-              </div>
+                </div>
+              )}
               <p className="description">
                 {textLoading
                   ? "Loading description..."
-                  : loadedLanguageTexts[selectedLanguage]?.trim() ||
-                    property.text ||
-                    "No description available."}
+                  : loadedShortTexts[selectedLanguage]?.trim() ||
+                    "No overview available."}
               </p>
 
               <div className="property-specs">
@@ -201,6 +263,7 @@ function PropertyDetail() {
               </div>
             </motion.div>
 
+            {/* DESCRIPTION - Affiche le Long Description */}
             <motion.div
               className="property-features"
               initial={{ opacity: 0, y: 20 }}
@@ -211,8 +274,7 @@ function PropertyDetail() {
               <p>
                 {textLoading
                   ? "Loading description..."
-                  : loadedLanguageTexts[selectedLanguage]?.trim() ||
-                    property.text ||
+                  : loadedLongTexts[selectedLanguage]?.trim() ||
                     "No description available."}
               </p>
             </motion.div>
@@ -287,14 +349,12 @@ function PropertyDetail() {
                 Listen to a short audio summary that highlights key sustainable
                 features and the story behind the design.
               </p>
-              {/* <audio controls className="property-audio" src={audioNarrative}>
-                Your browser does not support the audio element.
-              </audio> */}
             </motion.article>
           </div>
         </section>
       </div>
 
+      {/* Modal pour l'image agrandie */}
       {expandedImage !== null && (
         <motion.div
           className="image-modal-overlay"

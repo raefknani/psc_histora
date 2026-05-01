@@ -1,16 +1,35 @@
 [AR]
+[Long Description (Description)]
 دكّان العطور
+
 كان هذا الكشك الصغير دكّانًا يبيع العطور وكلّ ما يتصل بها من موادّ طيّبة ومستلزمات تقليدية. فيه تُعرض الزيوت الطبيعية، والخلاصات العطرية، والصابون، والبخور، والخلّ، والحنّاء، والحرقوس، والسواك، فيجتمع في المكان عبق الروائح وملامح العادات القديمة.
 وكانت على رفوفه أيضًا قوارير ماء الورد، وماء العطرشية، وماء زهر النسرى، وهي مياه عطرية تُستخرج بعمليّة التقطير، ويستعملها الناس في أشياء كثيرة من حياتهم اليومية. فمنها ما يدخل في إعداد الحلوى، ومنها ما يُستعمل في العناية بالبشرة، ومنها ما يضفي على البيت والجسد رائحة زكية محبّبة.
 وهكذا لم يكن هذا الدكّان مجرّد مكان لبيع العطور، بل كان عالمًا صغيرًا تختلط فيه الروائح بالنظافة والزينة والطبخ والعناية بالجسد، وتحضر فيه الموادّ الطبيعية كما لو أنّها جزء من أسلوب حياة كامل، بسيط وأصيل.
+
+[Short Description (Overview)]
+دكّان العطور
+كشك صغير يبيع الزيوت الطبيعية، الخلاصات، البخور، الحنّاء، السواك، ومياه ورد وعطرشية ونسرى. مياه مقطرة تستعمل في الحلويات والعناية والبيت. الدكان عالم صغير يجمع الروائح والنظافة والزينة والطبخ.
+
 [FR]
+[Long Description (Description)]
 La petite boutique des parfums
+
 Ce petit kiosque était une boutique spécialisée dans la vente de parfums et de tout ce qui s’y rattachait : matières odorantes et accessoires traditionnels. On y exposait des huiles naturelles, des essences parfumées, du savon, de l’encens, du vinaigre, du henné, du hargous, et du siwak. Les lieux réunissaient ainsi les fragrances mêlées aux traces des anciennes habitudes.
 Sur les étagères se trouvaient également des flacons d’eau de rose, d’eau d’atrashiya et d’eau de fleur de nesrî, des eaux parfumées obtenues par distillation et utilisées dans de nombreux aspects de la vie quotidienne. Certaines entraient dans la préparation des pâtisseries, d’autres servaient aux soins de la peau, tandis que d’autres encore parfumaient la maison et le corps d’une senteur agréable et familière.
 Ainsi, cette boutique n’était pas un simple lieu de vente de parfums ; elle constituait un petit univers où se mêlaient fragrances, propreté, parure, cuisine et soins du corps. Les produits naturels y étaient présents comme s’ils faisaient partie intégrante d’un art de vivre complet, à la fois simple et authentique.
+
+[Short Description (Overview)]
+La petite boutique des parfums
+Petit kiosque vendant huiles naturelles, essences, encens, henné, siwak, eaux de rose, d'atrashiya et de nesrî. Eaux distillées utilisées en pâtisserie, soins et parfum de la maison. La boutique est un petit univers mêlant fragrances, propreté, parure et cuisine.
+
 [ENG]
+[Long Description (Description)]
 The Small Perfume Shop
+
 This small kiosk was a shop selling perfumes and everything connected to them—fragrant materials and traditional necessities. Displayed inside were natural oils, aromatic extracts, soap, incense, vinegar, henna, hargous, and siwak, bringing together a rich blend of scents and echoes of old customs.
 On its shelves were also bottles of rose water, atrashiya water, and nesri blossom water—fragrant waters produced through distillation and used in many aspects of daily life. Some were used in preparing sweets, others in skincare, and others still to perfume the home and the body with a pleasing, familiar scent.
 Thus, this shop was not merely a place where perfumes were sold; it was a small world where fragrance intertwined with cleanliness, adornment, cooking, and body care. Natural materials were present as part of an entire way of life—simple, rooted, and authentic.
 
+[Short Description (Overview)]
+The Small Perfume Shop
+Small kiosk selling natural oils, extracts, incense, henna, siwak, and distilled waters (rose, atrashiya, nesri). Used in sweets, skincare, home. The shop is a small world blending fragrances, cleanliness, adornment, and cooking.
