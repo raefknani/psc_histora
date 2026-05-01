@@ -172,11 +172,11 @@ function Psc() {
 
       <section className="features" id="about">
         <div className="intro-card">
-          <h2>Welcome on Treopps</h2>
-          <p>
+          <h2>Welcome</h2>
+          {/* <p>
             Eco-friendly residences with calm modern design. Find your ideal
             home near forests, lakes and sustainable communities.
-          </p>
+          </p> */}
           {/* <div className="intro-buttons">
             <button className="btn-secondary">Explore Now</button>
             <Link to="/learn-more" className="btn-outline">
@@ -210,10 +210,10 @@ function Psc() {
         <div className="footer-grid">
           <div className="footer-item">
             <h4>HISTORA</h4>
-            <p>
+            {/* <p>
               Premium eco-home marketplace focused on sustainability and
               comfort.
-            </p>
+            </p> */}
           </div>
           <div className="footer-item">
             <h4>Navigate</h4>
@@ -231,8 +231,8 @@ function Psc() {
           </div>
           <div className="footer-item">
             <h4>Contact</h4>
-            <p>Email: info@histora.com</p>
-            <p>Phone: +1 800 123 4567</p>
+            <p>Email: .........</p>
+            <p>Phone: +216 ........</p>
           </div>
         </div>
         <div className="footer-bottom">

@@ -142,7 +142,7 @@ function PropertyDetail() {
                 transition={{ duration: 0.8 }}
                 key={selectedImageIndex}
               />
-              <div className="expand-icon">🔍 Expand</div>
+              {/* <div className="expand-icon">🔍 Expand</div> */}
             </motion.div>
             <div className="gallery-thumbs">
               {property.gallery.map((img, index) => (

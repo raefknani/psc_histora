@@ -3,6 +3,64 @@ import { motion } from "framer-motion";
 import "./LearnMore.css";
 
 function LearnMore() {
+  const overviewContent = [
+    {
+      title: "The Living Room",
+      description:
+        "In the mother-in-law's house (1930-1940). Gramophone next to traditional spinning tools. Mother-in-law keeps anklet and Arab dress; Khadija removed anklet, wears a dress, no headscarf. The living room mirrors a transitional period.",
+    },
+    {
+      title: "The Saqifa (Vestibule)",
+      description:
+        "The old house entrance where daily life meets itinerant vendors. Khadija chooses lace, her expert grandmother, little sister eats sugar apple. Ḥouta for protection, mannequins in old clothes. The saqifa is a small theatre of tradition and beauty.",
+    },
+    {
+      title: "The Coffeehouse",
+      description:
+        "Arabic coffeehouse bringing together Jew, Maltese, tourist, and imam. Coffee with orange blossom water, wood cooking, marsh and copper. The coffeehouse is a meeting space for diverse communities, alive with the old city's spirit.",
+    },
+    {
+      title: "The Olive Press",
+      description:
+        "Traditional press in the Sahel. Mikyal (10 kg), tithe (ʿushr) for the poor. Work meets blessing, oil bears witness to generosity of hearts and toil of hands.",
+    },
+    {
+      title: "The Weaver",
+      description:
+        "Weaving Tunisian wool with henna and indigo. Tea (teapot) always on the kanoun. The scene is not just a craft but a world of meticulous work and natural materials.",
+    },
+    {
+      title: "The House of the Trousseau (Bayt al-Jihaz)",
+      description:
+        "From age six, a girl prepares her trousseau. Linens, Soussi soap, qabqabs, ouksa hairstyle. The trousseau is not just objects but the story and patience of a girl weaving her future with her own hands.",
+    },
+    {
+      title: "The Market",
+      description:
+        "Fabric market, official goldsmith (state-appointed), ḥajjam (circumcision, cupping, herbs), public scribe (Zaytouni, reed pen and cuttlefish ink). A bird serves as radio. Diversity of trades, smells, and fragrances.",
+    },
+    {
+      title: "The Kitchen in Her Mother-in-Law's House",
+      description:
+        "Wood-fired cooking (zaḥḥafa), raised sedda, marou shelf, large and small jars, food preservation (sharmoula, qaddid). Khadija rolls couscous and hums, her anklet chimes. The kitchen is a warm, pulsating world.",
+    },
+    {
+      title: "Henna Preparations",
+      description:
+        "In parents' house, inherited henna garment, lijam (natural makeup), 'hen and chicks' pattern (fertility, husband's fidelity). The meshata attends to her. These preparations carry joy, prayer, and the memory of mothers.",
+    },
+    {
+      title: "The Small Perfume Shop",
+      description:
+        "Small kiosk selling natural oils, extracts, incense, henna, siwak, and distilled waters (rose, atrashiya, nesri). Used in sweets, skincare, home. The shop is a small world blending fragrances, cleanliness, adornment, and cooking.",
+    },
+    {
+      title: "The Henna Night – Wedding in the Heart of the House",
+      description:
+        "Central patio, women-only celebration. Khadija on a high table, eyes closed, hannana turns her. Her mother remembers her own henna, little sister with a candle, grandmother, hadra sing, al-qaʿada heats banader. Newlyweds sit in front. Baklava and tea. The patio is the beating heart of the house.",
+    },
+  ];
+
   return (
     <div className="learn-more">
       <header className="learn-more-header">
@@ -10,7 +68,7 @@ function LearnMore() {
           <Link to="/" className="back-btn">
             ← Back to Home
           </Link>
-          <h1>Learn More About Eco-Friendly Living</h1>
+          <h1>Explore Histora - Spaces & Stories</h1>
         </div>
       </header>
 
@@ -22,52 +80,13 @@ function LearnMore() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2>Why Choose Eco-Friendly Homes?</h2>
+            <h2>Welcome to Histora</h2>
             <p>
-              In today's world, sustainable living isn't just a trend—it's a
-              necessity. Our eco-friendly homes combine modern comfort with
-              environmental responsibility, helping you reduce your carbon
-              footprint while enjoying a luxurious lifestyle.
+              Discover authentic households, cultural spaces, and preserved
+              interiors from everyday life in traditional homes. Each space
+              tells a story of heritage, tradition, and the timeless beauty of
+              cultural practices.
             </p>
-          </motion.section>
-
-          <motion.section
-            className="benefits-section"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h2>Key Benefits</h2>
-            <div className="benefits-grid">
-              <div className="benefit-card">
-                <h3>🌱 Environmental Impact</h3>
-                <p>
-                  Reduce energy consumption by up to 50% with our sustainable
-                  designs and renewable energy systems.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <h3>💰 Cost Savings</h3>
-                <p>
-                  Lower utility bills and potential tax incentives for
-                  eco-friendly home features.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <h3>🏠 Health & Comfort</h3>
-                <p>
-                  Better indoor air quality, natural lighting, and sustainable
-                  materials for healthier living.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <h3>🌍 Future-Proof</h3>
-                <p>
-                  Invest in properties that will remain valuable as
-                  sustainability becomes increasingly important.
-                </p>
-              </div>
-            </div>
           </motion.section>
 
           <motion.section
@@ -76,71 +95,21 @@ function LearnMore() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <h2>Our Sustainable Features</h2>
+            <h2>The Spaces of Histora</h2>
             <div className="features-list">
-              <div className="feature-item">
-                <h4>Solar Power Integration</h4>
-                <p>
-                  Harness clean energy from the sun with advanced solar panel
-                  systems and battery storage.
-                </p>
-              </div>
-              <div className="feature-item">
-                <h4>Energy-Efficient Design</h4>
-                <p>
-                  Passive solar design, superior insulation, and smart home
-                  technology for optimal energy use.
-                </p>
-              </div>
-              <div className="feature-item">
-                <h4>Water Conservation</h4>
-                <p>
-                  Rainwater harvesting, low-flow fixtures, and drought-resistant
-                  landscaping.
-                </p>
-              </div>
-              <div className="feature-item">
-                <h4>Sustainable Materials</h4>
-                <p>
-                  Recycled and renewable building materials that minimize
-                  environmental impact.
-                </p>
-              </div>
-              <div className="feature-item">
-                <h4>Green Spaces</h4>
-                <p>
-                  Native plant gardens, community green spaces, and
-                  wildlife-friendly landscaping.
-                </p>
-              </div>
-              <div className="feature-item">
-                <h4>Smart Home Technology</h4>
-                <p>
-                  Automated systems for energy management, security, and comfort
-                  optimization.
-                </p>
-              </div>
+              {overviewContent.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="feature-item"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <h4>{item.title}</h4>
+                  <p>{item.description}</p>
+                </motion.div>
+              ))}
             </div>
-          </motion.section>
-
-          <motion.section
-            className="process-section"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <h2>Our Commitment to Sustainability</h2>
-            <p>
-              Every aspect of our homes is designed with the environment in
-              mind. From the initial planning stages to the final construction
-              details, we prioritize sustainable practices that benefit both our
-              residents and the planet.
-            </p>
-            <p>
-              We work closely with environmental experts, use certified green
-              building materials, and implement innovative technologies that
-              make eco-friendly living accessible and enjoyable for everyone.
-            </p>
           </motion.section>
 
           <motion.section
@@ -149,18 +118,18 @@ function LearnMore() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <h2>Ready to Start Your Eco-Friendly Journey?</h2>
+            <h2>Explore Each Space in Detail</h2>
             <p>
-              Explore our collection of sustainable homes and discover the
-              perfect property for your green lifestyle.
+              Visit our collection to immerse yourself in these rich cultural
+              narratives and discover the stories behind each traditional space.
             </p>
             <div className="cta-buttons">
               <Link to="/" className="btn-primary">
-                Browse Properties
+                View All Spaces
               </Link>
-              <button className="btn-secondary">
-                Download Sustainability Guide
-              </button>
+              <Link to="/contact" className="btn-secondary">
+                Get in Touch
+              </Link>
             </div>
           </motion.section>
         </div>
