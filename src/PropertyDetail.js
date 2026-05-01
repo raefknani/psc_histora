@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import audioNarrative from "./Khali beddalni.mp3";
 import roomsData from "./roomsData";
 import "./PropertyDetail.css";
 
@@ -31,7 +30,11 @@ function PropertyDetail() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
-  const [loadedLanguageTexts, setLoadedLanguageTexts] = useState({ AR: "", FR: "", ENG: "" });
+  const [loadedLanguageTexts, setLoadedLanguageTexts] = useState({
+    AR: "",
+    FR: "",
+    ENG: "",
+  });
   const [textLoading, setTextLoading] = useState(false);
 
   useEffect(() => {
@@ -89,8 +92,8 @@ function PropertyDetail() {
   useEffect(() => {
     if (!property) return;
 
-    const languages = Object.keys(loadedLanguageTexts).filter(
-      (lang) => loadedLanguageTexts[lang]?.trim(),
+    const languages = Object.keys(loadedLanguageTexts).filter((lang) =>
+      loadedLanguageTexts[lang]?.trim(),
     );
 
     if (languages.length && !languages.includes(selectedLanguage)) {
@@ -179,7 +182,9 @@ function PropertyDetail() {
               <p className="description">
                 {textLoading
                   ? "Loading description..."
-                  : loadedLanguageTexts[selectedLanguage]?.trim() || property.text || "No description available."}
+                  : loadedLanguageTexts[selectedLanguage]?.trim() ||
+                    property.text ||
+                    "No description available."}
               </p>
 
               <div className="property-specs">
@@ -206,7 +211,9 @@ function PropertyDetail() {
               <p>
                 {textLoading
                   ? "Loading description..."
-                  : loadedLanguageTexts[selectedLanguage]?.trim() || property.text || "No description available."}
+                  : loadedLanguageTexts[selectedLanguage]?.trim() ||
+                    property.text ||
+                    "No description available."}
               </p>
             </motion.div>
 
@@ -220,6 +227,15 @@ function PropertyDetail() {
             </motion.div>
           </div>
         </div>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="coming-soon-heading"
+        >
+          Coming Soon
+        </motion.h2>
 
         <section className="experience-section">
           <motion.h2
@@ -271,9 +287,9 @@ function PropertyDetail() {
                 Listen to a short audio summary that highlights key sustainable
                 features and the story behind the design.
               </p>
-              <audio controls className="property-audio" src={audioNarrative}>
+              {/* <audio controls className="property-audio" src={audioNarrative}>
                 Your browser does not support the audio element.
-              </audio>
+              </audio> */}
             </motion.article>
           </div>
         </section>

@@ -185,6 +185,26 @@
   gap: 12px;
 }
 
+.coming-soon {
+  font-size: 0.85rem;
+  color: #8c5a3c;
+  font-weight: 600;
+  text-align: center;
+  padding: 8px 0;
+  opacity: 0.8;
+}
+
+.coming-soon-heading {
+  color: #8c5a3c;
+  margin-bottom: 16px;
+  font-size: 1.9rem;
+  margin-top: 40px;
+  text-align: center;
+  border: 2px solid #8c5a3c;
+  padding: 20px;
+  border-radius: 12px;
+}
+
 .language-toggle {
   display: flex;
   flex-wrap: wrap;
