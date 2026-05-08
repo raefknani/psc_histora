@@ -12,27 +12,41 @@ const parseFullTextSections = (text) => {
     short: { AR: "", FR: "", ENG: "" },
   };
 
-  let currentLang = null;
-  let currentType = null; // "long" ou "short"
+  let currentLang = "AR"; // Par défaut, on suppose que ça commence par l'Arabe
+  let currentType = "long"; // Par défaut, long description
 
   lines.forEach((line) => {
     const trimmed = line.trim();
+    const lower = trimmed.toLowerCase();
 
-    // Détecter la langue [AR], [FR], [ENG]
-    const langMatch = trimmed.match(/^\[(AR|FR|ENG)\]$/);
+    // Détecter la langue [AR], [FR], [ENG], ou fr, en, ar
+    const langMatch = trimmed.match(/^\[?(AR|FR|ENG)\]?$/i);
     if (langMatch) {
-      currentLang = langMatch[1];
+      currentLang = langMatch[1].toUpperCase();
+      return;
+    }
+    
+    if (lower === "français – version complète" || lower === "français - version complète" || lower === "fr" || lower === "français") {
+      currentLang = "FR";
+      return;
+    }
+    if (lower === "english – full version" || lower === "english - full version" || lower === "en" || lower === "english") {
+      currentLang = "ENG";
+      return;
+    }
+    if (lower === "العربية – النص الكامل" || lower === "العربية - النص الكامل" || lower === "ar" || lower === "العربية") {
+      currentLang = "AR";
       return;
     }
 
     // Détecter Long Description
-    if (trimmed.includes("[Long Description") || trimmed === "(Description)") {
+    if (lower.includes("[long description") || lower === "(description)" || lower === "description:" || lower === "description :") {
       currentType = "long";
       return;
     }
 
-    // Détecter Short Description
-    if (trimmed.includes("[Short Description") || trimmed === "(Overview)") {
+    // Détecter Short Description (Overview)
+    if (lower.includes("[short description") || lower === "(overview)" || lower === "overview:" || lower === "overview :") {
       currentType = "short";
       return;
     }
@@ -43,11 +57,17 @@ const parseFullTextSections = (text) => {
       (result[currentType][currentLang] ? "\n" : "") + line;
   });
 
-  // Nettoyer les résultats (enlever les espaces en trop)
+  // Nettoyer les résultats
   Object.keys(result.long).forEach((lang) => {
     result.long[lang] = result.long[lang].trim();
     result.short[lang] = result.short[lang].trim();
   });
+
+  // Si rien n'a été parsé (fichier texte brut sans tags), on met tout dans le long AR par défaut
+  const hasContent = Object.values(result.long).some(v => v) || Object.values(result.short).some(v => v);
+  if (!hasContent && text.trim()) {
+      result.long.AR = text.trim();
+  }
 
   return result;
 };
@@ -74,7 +94,7 @@ function PropertyDetail() {
   });
   const [textLoading, setTextLoading] = useState(false);
 
-  // Gestion de la touche Echap pour fermer l'image ou la vidéo agrandie
+  // Gestion de la touche Echap
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
@@ -87,7 +107,7 @@ function PropertyDetail() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [expandedImage, expandedVideo]);
 
-  // Scroll en haut quand on change de propriété
+  // Scroll en haut
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [property]);
@@ -95,6 +115,39 @@ function PropertyDetail() {
   // Chargement des fichiers texte
   useEffect(() => {
     if (!property) return;
+    
+    const processRawText = (rawTextList) => {
+      const mergedLong = { AR: "", FR: "", ENG: "" };
+      const mergedShort = { AR: "", FR: "", ENG: "" };
+
+      rawTextList.forEach((rawText) => {
+        const { long, short } = parseFullTextSections(rawText);
+
+        Object.keys(long).forEach((lang) => {
+          if (long[lang]?.trim()) {
+            mergedLong[lang] += (mergedLong[lang] ? "\n\n" : "") + long[lang];
+          }
+        });
+
+        Object.keys(short).forEach((lang) => {
+          if (short[lang]?.trim()) {
+            mergedShort[lang] += (mergedShort[lang] ? "\n\n" : "") + short[lang];
+          }
+        });
+      });
+
+      setLoadedLongTexts(mergedLong);
+      setLoadedShortTexts(mergedShort);
+      setTextLoading(false);
+    };
+
+    // Use description from roomsData.js if available
+    if (property.description && property.description !== "Description coming soon...") {
+       setTextLoading(false);
+       processRawText([property.description]);
+       return;
+    }
+
     const urls = property.textUrls || property.texts || [];
     if (!urls.length) {
       setLoadedLongTexts({ AR: "", FR: "", ENG: "" });
@@ -110,33 +163,7 @@ function PropertyDetail() {
         return await response.text();
       }),
     )
-      .then((rawTextList) => {
-        const mergedLong = { AR: "", FR: "", ENG: "" };
-        const mergedShort = { AR: "", FR: "", ENG: "" };
-
-        rawTextList.forEach((rawText) => {
-          const { long, short } = parseFullTextSections(rawText);
-
-          // Fusion des longs textes
-          Object.keys(long).forEach((lang) => {
-            if (long[lang]?.trim()) {
-              mergedLong[lang] += (mergedLong[lang] ? "\n\n" : "") + long[lang];
-            }
-          });
-
-          // Fusion des courts textes
-          Object.keys(short).forEach((lang) => {
-            if (short[lang]?.trim()) {
-              mergedShort[lang] +=
-                (mergedShort[lang] ? "\n\n" : "") + short[lang];
-            }
-          });
-        });
-
-        setLoadedLongTexts(mergedLong);
-        setLoadedShortTexts(mergedShort);
-        setTextLoading(false);
-      })
+      .then(processRawText)
       .catch((error) => {
         console.error("Error loading text files:", error);
         setLoadedLongTexts({ AR: "", FR: "", ENG: "" });
@@ -175,8 +202,8 @@ function PropertyDetail() {
   }
 
   // Langues disponibles pour l'affichage
-  const availableLanguages = Object.keys(loadedShortTexts).filter((lang) =>
-    loadedShortTexts[lang]?.trim(),
+  const availableLanguages = Object.keys(loadedLongTexts).filter((lang) =>
+    loadedLongTexts[lang]?.trim() || loadedShortTexts[lang]?.trim()
   );
 
   return (
@@ -268,12 +295,38 @@ function PropertyDetail() {
                   ))}
                 </div>
               )}
-              <p className="description">
-                {textLoading
-                  ? "Loading description..."
-                  : loadedShortTexts[selectedLanguage]?.trim() ||
-                    "No overview available."}
-              </p>
+              
+              <div 
+                className="description"
+                dir={selectedLanguage === "AR" ? "rtl" : "ltr"}
+                style={{ textAlign: selectedLanguage === "AR" ? "right" : "left" }}
+              >
+                {textLoading ? (
+                  <p>Loading description...</p>
+                ) : (
+                  (() => {
+                    const text = loadedShortTexts[selectedLanguage]?.trim();
+                    if (!text) return <p>No overview available.</p>;
+                    const lines = text.split(/\r?\n/);
+                    let titleIndex = -1;
+                    for (let i = 0; i < lines.length; i++) {
+                      if (lines[i].trim()) {
+                        titleIndex = i;
+                        break;
+                      }
+                    }
+                    if (titleIndex === -1) return <p>{text}</p>;
+                    const title = lines[titleIndex].trim();
+                    const body = lines.slice(titleIndex + 1).join("\n").trim();
+                    return (
+                      <>
+                        <h4 style={{ marginBottom: '10px', fontSize: '1.2rem', color: 'var(--primary-color)' }}>{title}</h4>
+                        <p style={{ whiteSpace: 'pre-wrap' }}>{body}</p>
+                      </>
+                    );
+                  })()
+                )}
+              </div>
 
               <div className="property-specs">
                 <div className="spec-item">
@@ -283,7 +336,7 @@ function PropertyDetail() {
                   </span>
                 </div>
                 <div className="spec-item">
-                  <span className="spec-label">Category:</span>
+                  <span className="spec-label">Name:</span>
                   <span className="spec-value">{property.title}</span>
                 </div>
               </div>
@@ -298,12 +351,37 @@ function PropertyDetail() {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <h3>Description</h3>
-          <p className="description description-long">
-            {textLoading
-              ? "Loading description..."
-              : loadedLongTexts[selectedLanguage]?.trim() ||
-                "No description available."}
-          </p>
+          <div 
+            className="description description-long"
+            dir={selectedLanguage === "AR" ? "rtl" : "ltr"}
+            style={{ textAlign: selectedLanguage === "AR" ? "right" : "left" }}
+          >
+            {textLoading ? (
+              <p>Loading description...</p>
+            ) : (
+              (() => {
+                const text = loadedLongTexts[selectedLanguage]?.trim();
+                if (!text) return <p>No description available.</p>;
+                const lines = text.split(/\r?\n/);
+                let titleIndex = -1;
+                for (let i = 0; i < lines.length; i++) {
+                  if (lines[i].trim()) {
+                    titleIndex = i;
+                    break;
+                  }
+                }
+                if (titleIndex === -1) return <p>{text}</p>;
+                const title = lines[titleIndex].trim();
+                const body = lines.slice(titleIndex + 1).join("\n").trim();
+                return (
+                  <>
+                    <h4 style={{ marginBottom: '15px', fontSize: '1.5rem', color: 'var(--primary-color)' }}>{title}</h4>
+                    <p style={{ whiteSpace: 'pre-wrap' }}>{body}</p>
+                  </>
+                );
+              })()
+            )}
+          </div>
         </motion.div>
 
         <motion.h2

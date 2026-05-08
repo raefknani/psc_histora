@@ -1,14 +1,17 @@
-﻿/* eslint-disable unicode-bom */
+/* eslint-disable unicode-bom */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import videoBg from "./videoplayback (2).webm";
 import roomsData from "./roomsData";
 import logo from "./images/logo_psc-removebg-preview.png";
 import "./psc.css";
 
+const videoBg =
+  "https://res.cloudinary.com/def04uybd/video/upload/q_auto/f_auto/v1778280929/videoplayback_2_xqncr2.webm";
+
 function Psc() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -131,9 +134,25 @@ function Psc() {
       )}
 
       <section className="hero">
-        <video autoPlay loop muted playsInline className="video-bg">
-          <source src={videoBg} type="video/mp4" />
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className={`video-bg ${isVideoLoaded ? 'loaded' : 'loading'}`}
+          onLoadedData={() => setIsVideoLoaded(true)}
+        >
+          <source src={videoBg} type="video/webm" />
         </video>
+        {!isVideoLoaded && (
+          <motion.div 
+            className="video-loader"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="spinner"></div>
+          </motion.div>
+        )}
         <div className="overlay" />
 
         <div className="hero-content">
