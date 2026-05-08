@@ -242,7 +242,7 @@ function Psc() {
                 <h3 dir="rtl">{getRoomTitle(card)}</h3>
                 {/* <p>{card.text}</p> */}
                 <Link to={`/property/${index + 1}`} className="btn-tertiary">
-                  {card.button} View Details
+                  {card.button} Details
                 </Link>
               </div>
             </motion.article>
