@@ -8,7 +8,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275871/musee_img001_pdrxjz.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": false
   },
   {
     "id": 2,
@@ -41,7 +42,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/video/upload/v1778281330/zhaz_sim_nzcebz.mp4",
       "https://res.cloudinary.com/def04uybd/video/upload/v1778275839/zhaz_sim_vdx1uj.mp4"
     ],
-    "button": "View"
+    "button": "View",
+    "locked": false
   },
   {
     "id": 3,
@@ -71,7 +73,8 @@ const roomsData = [
     "videos": [
       "https://res.cloudinary.com/def04uybd/video/upload/v1778275730/salon_sim_g5kqb9.mp4"
     ],
-    "button": "View"
+    "button": "View",
+    "locked": false
   },
   {
     "id": 4,
@@ -87,7 +90,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275447/sakiffa_img006_ynjjwg.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 5,
@@ -106,7 +110,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275617/preHenna_img001_fgzyk9.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 6,
@@ -130,7 +135,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275435/marche_img014_hiwlyk.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 7,
@@ -143,7 +149,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275412/huilerie_img003_a3pz2j.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 8,
@@ -171,7 +178,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275585/hennaDay_img018_c3yyrt.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 9,
@@ -190,7 +198,8 @@ const roomsData = [
     "videos": [
       "https://res.cloudinary.com/def04uybd/video/upload/v1778275483/cuisine_sim_ewuglq.mp4"
     ],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 10,
@@ -206,7 +215,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275396/commer%C3%A7ant_img006_pzfjua.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 11,
@@ -227,7 +237,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275393/cafe_img011_cpsiaz.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 12,
@@ -243,7 +254,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275379/atelierTissage_img006_konhor.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   },
   {
     "id": 13,
@@ -268,7 +280,8 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275422/kobba_img015_jwvd1s.jpg"
     ],
     "videos": [],
-    "button": "View"
+    "button": "View",
+    "locked": true
   }
 ];
 

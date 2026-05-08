@@ -12,6 +12,31 @@ const videoBg =
 function Psc() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [showLockedModal, setShowLockedModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(
+    () => localStorage.getItem('histora_unlocked') === 'true'
+  );
+
+  const closeModal = () => {
+    setShowLockedModal(false);
+    setPasswordInput('');
+    setPasswordError(false);
+  };
+
+  const handleUnlock = () => {
+    const correct = process.env.REACT_APP_UNLOCK_PASSWORD;
+    if (passwordInput === correct) {
+      localStorage.setItem('histora_unlocked', 'true');
+      setIsUnlocked(true);
+      closeModal();
+    } else {
+      setPasswordError(true);
+      setPasswordInput('');
+      setTimeout(() => setPasswordError(false), 800);
+    }
+  };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -233,21 +258,101 @@ function Psc() {
           {roomsData.map((card, index) => (
             <motion.article
               key={index}
-              className="info-card"
-              whileHover={{ y: -8 }}
+              className={`info-card${(card.locked && !isUnlocked) ? ' info-card--locked' : ''}`}
+              whileHover={(card.locked && !isUnlocked) ? {} : { y: -8 }}
               transition={{ type: "spring", stiffness: 250 }}
+              onClick={(card.locked && !isUnlocked) ? () => setShowLockedModal(true) : undefined}
             >
-              <img src={card.gallery?.find(img => img.includes("001")) || card.img} alt={card.title} />
+              <div className="card-image-wrapper">
+                <img
+                  src={card.gallery?.find(img => img.includes("001")) || card.img}
+                  alt={card.title}
+                  className={card.locked && !isUnlocked ? 'card-img-blurred' : ''}
+                />
+                {card.locked && !isUnlocked && (
+                  <div className="card-lock-overlay">
+                    <div className="lock-icon-wrapper">
+                      <svg className="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                      </svg>
+                    </div>
+                    <span className="lock-label">Coming Soon</span>
+                  </div>
+                )}
+              </div>
               <div className="card-text">
                 <h3 dir="rtl">{getRoomTitle(card)}</h3>
-                {/* <p>{card.text}</p> */}
-                <Link to={`/property/${index + 1}`} className="btn-tertiary">
-                  {card.button} Details
-                </Link>
+                {(card.locked && !isUnlocked) ? (
+                  <button className="btn-tertiary btn-tertiary--locked" onClick={(e) => { e.stopPropagation(); setShowLockedModal(true); }}>
+                    🔒 Locked
+                  </button>
+                ) : (
+                  <Link to={`/property/${index + 1}`} className="btn-tertiary">
+                    {card.button} Details
+                  </Link>
+                )}
               </div>
             </motion.article>
           ))}
         </div>
+
+        {/* Locked Room Modal */}
+        {showLockedModal && (
+          <motion.div
+            className="lock-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+          >
+            <motion.div
+              className="lock-modal"
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              animate={passwordError ? { x: [0, -10, 10, -10, 10, 0] } : { opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 30 }}
+              transition={{ type: "spring", stiffness: 280, damping: 22 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="lock-modal-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <h2 className="lock-modal-title">Room Locked</h2>
+              <p className="lock-modal-text">
+                Enter the password you received at the museum to unlock this room.
+              </p>
+              <p className="lock-modal-cta">
+                🏛️ Visit the museum to get your password
+              </p>
+              <div className="lock-modal-input-wrapper">
+                <input
+                  id="unlock-password-input"
+                  type="password"
+                  className={`lock-modal-input${passwordError ? ' lock-modal-input--error' : ''}`}
+                  placeholder="Enter password..."
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
+                  autoFocus
+                />
+                {passwordError && (
+                  <p className="lock-modal-error">Incorrect password. Try again.</p>
+                )}
+              </div>
+              <div className="lock-modal-actions">
+                <button className="lock-modal-close lock-modal-close--secondary" onClick={closeModal}>
+                  Cancel
+                </button>
+                <button className="lock-modal-close" onClick={handleUnlock}>
+                  Unlock 🔓
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
       </section>
 
       <footer className="site-footer">
