@@ -21,6 +21,27 @@ function Psc() {
     setMobileMenuOpen(false);
   };
 
+  const getRoomTitle = (card) => {
+    if (!card.description) return card.title;
+    const text = card.description;
+    
+    // Search for Arabic section first
+    const arIndex = text.search(/(?:^|\n)(ar)(?:\r?\n|$)/i);
+    if (arIndex !== -1) {
+      const arText = text.substring(arIndex);
+      const lines = arText.split(/\r?\n/).slice(1);
+      for (const line of lines) {
+        const trimmed = line.trim();
+        // Return first non-empty line
+        if (trimmed && !trimmed.toLowerCase().startsWith('overview') && !trimmed.toLowerCase().startsWith('description')) {
+          return trimmed.replace(/:$/, '').trim();
+        }
+      }
+    }
+    
+    return card.title;
+  };
+
   return (
     <div className="app-root">
       <header className="top-nav">
@@ -216,9 +237,9 @@ function Psc() {
               whileHover={{ y: -8 }}
               transition={{ type: "spring", stiffness: 250 }}
             >
-              <img src={card.img} alt={card.title} />
+              <img src={card.gallery?.find(img => img.includes("001")) || card.img} alt={card.title} />
               <div className="card-text">
-                <h3>{card.title}</h3>
+                <h3 dir="rtl">{getRoomTitle(card)}</h3>
                 {/* <p>{card.text}</p> */}
                 <Link to={`/property/${index + 1}`} className="btn-tertiary">
                   {card.button} View Details
