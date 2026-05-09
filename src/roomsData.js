@@ -74,7 +74,7 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/video/upload/v1778275730/salon_sim_g5kqb9.mp4"
     ],
     "button": "View",
-    "locked": false
+    "locked": false 
   },
   {
     "id": 4,

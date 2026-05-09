@@ -1,5 +1,5 @@
 /* eslint-disable unicode-bom */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import roomsData from "./roomsData";
@@ -15,9 +15,18 @@ function Psc() {
   const [showLockedModal, setShowLockedModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-  const [isUnlocked, setIsUnlocked] = useState(
-    () => localStorage.getItem('histora_unlocked') === 'true'
-  );
+  const [isUnlocked, setIsUnlocked] = useState(false);
+
+  // Load unlock state from localStorage on mount
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('histora_unlocked') === 'true') {
+        setIsUnlocked(true);
+      }
+    } catch (e) {
+      console.warn('localStorage not available');
+    }
+  }, []);
 
   const closeModal = () => {
     setShowLockedModal(false);
@@ -26,8 +35,9 @@ function Psc() {
   };
 
   const handleUnlock = () => {
-    const correct = process.env.REACT_APP_UNLOCK_PASSWORD;
-    if (passwordInput === correct) {
+    const correct = process.env.REACT_APP_UNLOCK_PASSWORD || 'histora2025';
+    if (passwordInput.trim() === correct.trim()) {
+      // Write directly to localStorage — do NOT use a reactive effect for this
       localStorage.setItem('histora_unlocked', 'true');
       setIsUnlocked(true);
       closeModal();
