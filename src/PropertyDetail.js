@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { getWithExpiry } from "./authUtils";
 import { motion } from "framer-motion";
 import roomsData from "./roomsData";
 import "./PropertyDetail.css";
@@ -74,7 +75,27 @@ const parseFullTextSections = (text) => {
 
 function PropertyDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const property = roomsData.find((p) => p.id === parseInt(id));
+
+  // Security Gate: Redirect if room is locked and session is expired
+  useEffect(() => {
+    const checkAuth = () => {
+      if (property && property.locked) {
+        const isUnlocked = getWithExpiry("histora_unlocked") === true;
+        if (!isUnlocked) {
+          navigate("/?expired=true");
+        }
+      }
+    };
+
+    // Check immediately on mount
+    checkAuth();
+
+    // Periodic check every 2 seconds to handle expiration while on page
+    const interval = setInterval(checkAuth, 2000);
+    return () => clearInterval(interval);
+  }, [property, navigate]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState(null);
   const [expandedVideo, setExpandedVideo] = useState(false);

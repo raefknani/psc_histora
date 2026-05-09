@@ -552,6 +552,10 @@ body {
   gap: 12px;
 }
 
+.lock-modal--expired {
+  border-top: 4px solid #e74c3c;
+}
+
 .lock-modal-icon {
   width: 72px;
   height: 72px;
@@ -562,6 +566,11 @@ body {
   justify-content: center;
   margin-bottom: 8px;
   box-shadow: 0 8px 24px rgba(140, 90, 60, 0.35);
+}
+
+.lock-modal-icon--expired {
+  background: linear-gradient(135deg, #f8d7da, #e74c3c);
+  box-shadow: 0 8px 24px rgba(231, 76, 60, 0.3);
 }
 
 .lock-modal-icon svg {
