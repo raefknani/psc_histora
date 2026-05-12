@@ -157,7 +157,7 @@ const roomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   },
   {
     "id": 8,
@@ -187,7 +187,7 @@ const roomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   },
   {
     "id": 9,
@@ -226,7 +226,7 @@ const roomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   },
   {
     "id": 11,
@@ -248,7 +248,7 @@ const roomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   },
   {
     "id": 12,
@@ -266,7 +266,7 @@ const roomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   },
   {
     "id": 13,
@@ -293,7 +293,7 @@ const roomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   }
 ];
 

@@ -300,23 +300,30 @@
 .experience-section {
   background: rgba(255, 245, 238, 0.95);
   border-radius: 24px;
-  padding: 32px;
+  padding: 0; /* Remove padding to match container width */
   margin-top: 40px;
   box-shadow: 0 16px 40px rgba(140, 90, 60, 0.1);
   border: 1px solid rgba(140, 90, 60, 0.15);
+  overflow: hidden; /* Ensure background stays within radius */
+}
+
+.experience-section > * {
+  padding: 32px; /* Apply padding to children instead */
 }
 
 .experience-section h2 {
-  margin: 0 0 24px;
+  margin: 0;
   color: #8c5a3c;
   font-size: 1.9rem;
 }
 
 .experience-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  padding: 32px;
 }
+
 
 .experience-card {
   background: #fff2eb;
@@ -327,6 +334,22 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  transition: all 0.3s ease;
+}
+
+.experience-card--compact {
+  align-self: flex-start;
+  min-height: unset;
+}
+
+.experience-3d-placeholder {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
 }
 
 .experience-card h3 {
@@ -344,8 +367,8 @@
 .experience-preview {
   border-radius: 18px;
   overflow: hidden;
-  background: #fde4d7;
-  min-height: 180px;
+  background: transparent;
+  min-height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -364,9 +387,9 @@
 .experience-video {
   width: 100%;
   border-radius: 18px;
-  max-height: 220px;
+  max-height: 280px;
   object-fit: cover;
-  background: #000;
+  background: transparent;
 }
 
 .experience-video-wrapper {
@@ -398,7 +421,7 @@
 .expanded-video {
   width: 100%;
   height: 100%;
-  min-height: 320px;
+  min-height: 500px;
   object-fit: contain;
   display: block;
 }

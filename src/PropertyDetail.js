@@ -419,15 +419,34 @@ function PropertyDetail() {
             3D Experience & Audio Details
           </motion.h2>
           <div className="experience-grid">
-            <motion.article className="experience-card" whileHover={{ y: -6 }}>
+            <motion.article 
+              className={`experience-card ${property.videos?.length ? 'experience-video-wrapper' : ''}`} 
+              whileHover={{ y: -6 }}
+              onClick={() => property.videos?.length && setExpandedVideo(true)}
+            >
               <div className="experience-preview">
-                <img src={property.img} alt="3D model preview" />
+                {property.videos?.length ? (
+                  <video 
+                    className="experience-video" 
+                    autoPlay 
+                    muted 
+                    loop 
+                    playsInline
+                  >
+                    <source src={property.videos[0]} type="video/mp4" />
+                  </video>
+                ) : (
+                  <img src={property.img} alt="Virtual Scene preview" />
+                )}
               </div>
-              <h3>3D Model Preview</h3>
-              <p>Explore a realistic 3D visualization of the property layout and materials.</p>
+              <h3>Virtual Scene</h3>
+              <p>Explore the original authentic items from that room in its real environment.</p>
             </motion.article>
 
-            <motion.article className="experience-card experience-card--featured" whileHover={{ y: -6 }}>
+            <motion.article 
+              className={`experience-card experience-card--featured ${!property.model3d ? 'experience-card--compact' : ''}`} 
+              whileHover={{ y: -6 }}
+            >
               {show3D ? (
                 <STLViewer url={property.model3d} />
               ) : (
