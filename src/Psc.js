@@ -7,15 +7,14 @@ import logo from "./images/logo_psc-removebg-preview.png";
 import "./psc.css";
 
 import { setWithExpiry, getWithExpiry } from "./authUtils";
+import { getRoomTitle, getOptimizedImageUrl } from "./utils";
 
 const videoBg =
-  "https://res.cloudinary.com/def04uybd/video/upload/q_auto/f_auto/v1778280929/videoplayback_2_xqncr2.webm";
-
+"https://res.cloudinary.com/def04uybd/video/upload/q_auto/f_auto/v1778280929/videoplayback_2_xqncr2.webm"
 function Psc() {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [showLockedModal, setShowLockedModal] = useState(false);
   const [showExpiredModal, setShowExpiredModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
@@ -88,26 +87,7 @@ function Psc() {
     setMobileMenuOpen(false);
   };
 
-  const getRoomTitle = (card) => {
-    if (!card.description) return card.title;
-    const text = card.description;
-    
-    // Search for Arabic section first
-    const arIndex = text.search(/(?:^|\n)(ar)(?:\r?\n|$)/i);
-    if (arIndex !== -1) {
-      const arText = text.substring(arIndex);
-      const lines = arText.split(/\r?\n/).slice(1);
-      for (const line of lines) {
-        const trimmed = line.trim();
-        // Return first non-empty line
-        if (trimmed && !trimmed.toLowerCase().startsWith('overview') && !trimmed.toLowerCase().startsWith('description')) {
-          return trimmed.replace(/:$/, '').trim();
-        }
-      }
-    }
-    
-    return card.title;
-  };
+// getRoomTitle moved to utils.js
 
   return (
     <div className="app-root">
@@ -227,20 +207,13 @@ function Psc() {
           loop 
           muted 
           playsInline 
-          className={`video-bg ${isVideoLoaded ? 'loaded' : 'loading'}`}
-          onLoadedData={() => setIsVideoLoaded(true)}
+          preload="auto"
+          poster="https://res.cloudinary.com/def04uybd/video/upload/so_0/v1778280929/videoplayback_2_xqncr2.jpg"
+          className="video-bg loaded"
         >
-          <source src={videoBg} type="video/webm" />
+          <source src="https://res.cloudinary.com/def04uybd/video/upload/q_auto:low,f_auto,vc_auto/v1778280929/videoplayback_2_xqncr2.mp4" type="video/mp4" />
+          <source src={videoBg.replace('q_auto', 'q_auto:low')} type="video/webm" />
         </video>
-        {!isVideoLoaded && (
-          <motion.div 
-            className="video-loader"
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="spinner"></div>
-          </motion.div>
-        )}
         <div className="overlay" />
 
         <div className="hero-content">
@@ -296,20 +269,46 @@ function Psc() {
           </div> */}
         </div>
 
-        <div className="card-grid">
+        <motion.div 
+          className="card-grid"
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {roomsData.map((card, index) => (
             <motion.article
               key={index}
               className={`info-card${(card.locked && !isUnlocked) ? ' info-card--locked' : ''}`}
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                show: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15
+                  }
+                }
+              }}
               whileHover={(card.locked && !isUnlocked) ? {} : { y: -8 }}
-              transition={{ type: "spring", stiffness: 250 }}
               onClick={(card.locked && !isUnlocked) ? () => setShowLockedModal(true) : undefined}
             >
               <div className="card-image-wrapper">
                 <img
-                  src={card.gallery?.find(img => img.includes("001")) || card.img}
+                  src={getOptimizedImageUrl(card.gallery?.find(img => img.includes("001")) || card.img, 'w_600,c_scale,q_auto,f_auto')}
                   alt={card.title}
                   className={card.locked && !isUnlocked ? 'card-img-blurred' : ''}
+                  loading="lazy"
                 />
                 {card.locked && !isUnlocked && (
                   <div className="card-lock-overlay">
@@ -337,7 +336,7 @@ function Psc() {
               </div>
             </motion.article>
           ))}
-        </div>
+        </motion.div>
 
         {/* Locked Room Modal */}
         {showLockedModal && (

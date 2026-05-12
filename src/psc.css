@@ -248,8 +248,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
-  background: rgba(242, 222, 200, 0.5);
+  z-index: 10; /* Higher than hero-content (5) */
+  background: #f2dec8; /* Solid background color until loaded */
   backdrop-filter: blur(10px);
 }
 

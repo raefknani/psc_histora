@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getWithExpiry } from "./authUtils";
 import { motion } from "framer-motion";
 import roomsData from "./roomsData";
+import { getRoomTitle, getOptimizedImageUrl } from "./utils";
 import "./PropertyDetail.css";
 
 // Parse le fichier texte pour extraire Long Description et Short Description
@@ -227,26 +228,7 @@ function PropertyDetail() {
     loadedLongTexts[lang]?.trim() || loadedShortTexts[lang]?.trim()
   );
 
-  const getRoomTitle = (card) => {
-    if (!card.description) return card.title;
-    const text = card.description;
-    
-    // Search for Arabic section first
-    const arIndex = text.search(/(?:^|\n)(ar)(?:\r?\n|$)/i);
-    if (arIndex !== -1) {
-      const arText = text.substring(arIndex);
-      const lines = arText.split(/\r?\n/).slice(1);
-      for (const line of lines) {
-        const trimmed = line.trim();
-        // Return first non-empty line
-        if (trimmed && !trimmed.toLowerCase().startsWith('overview') && !trimmed.toLowerCase().startsWith('description')) {
-          return trimmed.replace(/:$/, '').trim();
-        }
-      }
-    }
-    
-    return card.title;
-  };
+// getRoomTitle moved to utils.js
 
   return (
     <div className="property-detail">
@@ -271,7 +253,7 @@ function PropertyDetail() {
               whileHover={{ cursor: "pointer" }}
             >
               <motion.img
-                src={property.gallery[selectedImageIndex]}
+                src={getOptimizedImageUrl(property.gallery[selectedImageIndex], 'w_1200,q_auto,f_auto')}
                 alt={property.title}
                 className="main-image"
                 drag="x"
@@ -305,10 +287,11 @@ function PropertyDetail() {
               {property.gallery.map((img, index) => (
                 <img
                   key={index}
-                  src={img}
+                  src={getOptimizedImageUrl(img, 'w_150,h_150,c_fill,q_auto,f_auto')}
                   alt={`${property.title} ${index + 1}`}
                   onClick={() => setSelectedImageIndex(index)}
                   className={`thumb-image ${selectedImageIndex === index ? "active" : ""}`}
+                  loading="lazy"
                 />
               ))}
             </div>
