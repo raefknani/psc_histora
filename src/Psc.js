@@ -281,8 +281,7 @@ function Psc() {
             }
           }}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          animate="show"
         >
           {roomsData.map((card, index) => (
             <motion.article
