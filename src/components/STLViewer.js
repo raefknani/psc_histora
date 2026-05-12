@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense } from "react";
 import { Canvas, useLoader } from "@react-three/fiber";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 import { OrbitControls, Center, Stage, Html } from "@react-three/drei";
