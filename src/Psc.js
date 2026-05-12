@@ -8,6 +8,7 @@ import "./psc.css";
 
 import { setWithExpiry, getWithExpiry } from "./authUtils";
 import { getRoomTitle, getOptimizedImageUrl } from "./utils";
+import Loader from "./components/Loader";
 
 const videoBg =
 "https://res.cloudinary.com/def04uybd/video/upload/q_auto/f_auto/v1778280929/videoplayback_2_xqncr2.webm"
@@ -15,6 +16,7 @@ function Psc() {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [showLockedModal, setShowLockedModal] = useState(false);
   const [showExpiredModal, setShowExpiredModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
@@ -27,6 +29,14 @@ function Psc() {
       return false;
     }
   });
+  
+  useEffect(() => {
+    // Safety fallback: if video hasn't loaded in 3 seconds, hide loader anyway
+    const timer = setTimeout(() => {
+      setIsVideoLoaded(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Detect expiration from URL
   useEffect(() => {
@@ -210,10 +220,12 @@ function Psc() {
           preload="auto"
           poster="https://res.cloudinary.com/def04uybd/video/upload/so_0/v1778280929/videoplayback_2_xqncr2.jpg"
           className="video-bg loaded"
+          onCanPlay={() => setIsVideoLoaded(true)}
         >
           <source src="https://res.cloudinary.com/def04uybd/video/upload/q_auto:low,f_auto,vc_auto/v1778280929/videoplayback_2_xqncr2.mp4" type="video/mp4" />
           <source src={videoBg.replace('q_auto', 'q_auto:low')} type="video/webm" />
         </video>
+        {!isVideoLoaded && <Loader />}
         <div className="overlay" />
 
         <div className="hero-content">

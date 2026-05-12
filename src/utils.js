@@ -38,7 +38,23 @@ export const getOptimizedImageUrl = (url, transformations = 'q_auto,f_auto') => 
   const part1 = url.substring(0, uploadIndex + 8);
   const part2 = url.substring(uploadIndex + 8);
   
-  // If there's already a version or transformation (starts with v or has multiple /)
   // We insert our transformation right after /upload/
   return `${part1}${transformations}/${part2}`;
+};
+
+/**
+ * Preloads an array of image URLs.
+ * @param {string[]} urls - Array of image URLs to preload
+ */
+export const preloadImages = (urls) => {
+  return Promise.all(
+    urls.map((url) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = resolve;
+        img.onerror = resolve; // Resolve anyway to not block forever
+      });
+    })
+  );
 };

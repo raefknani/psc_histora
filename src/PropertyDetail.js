@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getWithExpiry } from "./authUtils";
 import { motion } from "framer-motion";
 import roomsData from "./roomsData";
-import { getRoomTitle, getOptimizedImageUrl } from "./utils";
+import { getRoomTitle, getOptimizedImageUrl, preloadImages } from "./utils";
+import Loader from "./components/Loader";
 import "./PropertyDetail.css";
 
 // Parse le fichier texte pour extraire Long Description et Short Description
@@ -114,7 +115,7 @@ function PropertyDetail() {
     FR: "",
     ENG: "",
   });
-  const [textLoading, setTextLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
 
   // Gestion de la touche Echap
   useEffect(() => {
@@ -160,12 +161,12 @@ function PropertyDetail() {
 
       setLoadedLongTexts(mergedLong);
       setLoadedShortTexts(mergedShort);
-      setTextLoading(false);
+      setPageLoading(false);
     };
 
     // Use description from roomsData.js if available
     if (property.description && property.description !== "Description coming soon...") {
-       setTextLoading(false);
+       setPageLoading(false);
        processRawText([property.description]);
        return;
     }
@@ -174,23 +175,44 @@ function PropertyDetail() {
     if (!urls.length) {
       setLoadedLongTexts({ AR: "", FR: "", ENG: "" });
       setLoadedShortTexts({ AR: "", FR: "", ENG: "" });
-      setTextLoading(false);
+      setPageLoading(false);
       return;
     }
 
-    setTextLoading(true);
-    Promise.all(
+    setPageLoading(true);
+    
+    // Safety fallback: don't block the UI for more than 5 seconds (media takes time)
+    const safetyTimer = setTimeout(() => {
+      setPageLoading(false);
+    }, 5000);
+
+    const textPromise = Promise.all(
       urls.map(async (url) => {
-        const response = await fetch(url);
-        return await response.text();
-      }),
-    )
-      .then(processRawText)
+        try {
+          const response = await fetch(url);
+          return await response.text();
+        } catch (e) {
+          return "";
+        }
+      })
+    );
+
+    // Preload first 4 gallery images (optimized)
+    const imagesToPreload = property.gallery.slice(0, 4).map(img => 
+      getOptimizedImageUrl(img, 'w_1200,q_auto,f_auto')
+    );
+    const imagePromise = preloadImages(imagesToPreload);
+
+    Promise.all([textPromise, imagePromise])
+      .then(([textData]) => {
+        setPageLoading(false);
+        clearTimeout(safetyTimer);
+        processRawText(textData);
+      })
       .catch((error) => {
-        console.error("Error loading text files:", error);
-        setLoadedLongTexts({ AR: "", FR: "", ENG: "" });
-        setLoadedShortTexts({ AR: "", FR: "", ENG: "" });
-        setTextLoading(false);
+        console.error("Error loading page data:", error);
+        clearTimeout(safetyTimer);
+        setPageLoading(false);
       });
   }, [property]);
 
@@ -326,8 +348,8 @@ function PropertyDetail() {
                 dir={selectedLanguage === "AR" ? "rtl" : "ltr"}
                 style={{ textAlign: selectedLanguage === "AR" ? "right" : "left" }}
               >
-                {textLoading ? (
-                  <p>Loading description...</p>
+                {pageLoading ? (
+                  <Loader />
                 ) : (
                   (() => {
                     const text = loadedShortTexts[selectedLanguage]?.trim();
@@ -381,8 +403,8 @@ function PropertyDetail() {
             dir={selectedLanguage === "AR" ? "rtl" : "ltr"}
             style={{ textAlign: selectedLanguage === "AR" ? "right" : "left" }}
           >
-            {textLoading ? (
-              <p>Loading description...</p>
+            {pageLoading ? (
+              <Loader />
             ) : (
               (() => {
                 const text = loadedLongTexts[selectedLanguage]?.trim();

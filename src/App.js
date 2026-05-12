@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import Loader from "./components/Loader";
 
 // Lazy-loaded pages
 const Psc = lazy(() => import("./Psc"));
@@ -12,7 +13,7 @@ const Contact = lazy(() => import("./Contact"));
 function App() {
   return (
     <Router>
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Psc />} />
           <Route path="/property/:id" element={<PropertyDetail />} />
