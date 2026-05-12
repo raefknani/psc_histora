@@ -17,7 +17,32 @@
   padding: 0 24px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
+}
+
+.header-nav-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-secondary {
+  color: #8c5a3c;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(140, 90, 60, 0.3);
+  background: rgba(140, 90, 60, 0.05);
+  font-size: 0.9rem;
+}
+
+.nav-secondary:hover {
+  background: #8c5a3c;
+  color: white;
+  border-color: #8c5a3c;
 }
 
 .back-btn {

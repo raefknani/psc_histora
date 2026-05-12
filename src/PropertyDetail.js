@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getWithExpiry } from "./authUtils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import roomsData from "./roomsData";
 import { getRoomTitle, getOptimizedImageUrl, preloadImages } from "./utils";
 import Loader from "./components/Loader";
+import logo from "./images/logo_psc-removebg-preview.png";
 import "./PropertyDetail.css";
+import "./psc.css";
+import STLViewer from "./components/STLViewer";
 
 // Parse le fichier texte pour extraire Long Description et Short Description
 const parseFullTextSections = (text) => {
@@ -79,6 +82,7 @@ function PropertyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const property = roomsData.find((p) => p.id === parseInt(id));
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Security Gate: Redirect if room is locked and session is expired
   useEffect(() => {
@@ -91,30 +95,24 @@ function PropertyDetail() {
       }
     };
 
-    // Check immediately on mount
     checkAuth();
-
-    // Periodic check every 2 seconds to handle expiration while on page
     const interval = setInterval(checkAuth, 2000);
     return () => clearInterval(interval);
   }, [property, navigate]);
+
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState(null);
   const [expandedVideo, setExpandedVideo] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
   const [isDragging, setIsDragging] = useState(false);
+  const [show3D, setShow3D] = useState(false);
 
   // États pour les textes chargés
-  const [loadedLongTexts, setLoadedLongTexts] = useState({
-    AR: "",
-    FR: "",
-    ENG: "",
-  });
-  const [loadedShortTexts, setLoadedShortTexts] = useState({
-    AR: "",
-    FR: "",
-    ENG: "",
-  });
+  const [loadedLongTexts, setLoadedLongTexts] = useState({ AR: "", FR: "", ENG: "" });
+  const [loadedShortTexts, setLoadedShortTexts] = useState({ AR: "", FR: "", ENG: "" });
   const [pageLoading, setPageLoading] = useState(false);
 
   // Gestion de la touche Echap
@@ -125,7 +123,6 @@ function PropertyDetail() {
         if (expandedVideo) setExpandedVideo(false);
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [expandedImage, expandedVideo]);
@@ -145,17 +142,11 @@ function PropertyDetail() {
 
       rawTextList.forEach((rawText) => {
         const { long, short } = parseFullTextSections(rawText);
-
         Object.keys(long).forEach((lang) => {
-          if (long[lang]?.trim()) {
-            mergedLong[lang] += (mergedLong[lang] ? "\n\n" : "") + long[lang];
-          }
+          if (long[lang]?.trim()) mergedLong[lang] += (mergedLong[lang] ? "\n\n" : "") + long[lang];
         });
-
         Object.keys(short).forEach((lang) => {
-          if (short[lang]?.trim()) {
-            mergedShort[lang] += (mergedShort[lang] ? "\n\n" : "") + short[lang];
-          }
+          if (short[lang]?.trim()) mergedShort[lang] += (mergedShort[lang] ? "\n\n" : "") + short[lang];
         });
       });
 
@@ -164,7 +155,6 @@ function PropertyDetail() {
       setPageLoading(false);
     };
 
-    // Use description from roomsData.js if available
     if (property.description && property.description !== "Description coming soon...") {
        setPageLoading(false);
        processRawText([property.description]);
@@ -180,11 +170,7 @@ function PropertyDetail() {
     }
 
     setPageLoading(true);
-    
-    // Safety fallback: don't block the UI for more than 5 seconds (media takes time)
-    const safetyTimer = setTimeout(() => {
-      setPageLoading(false);
-    }, 5000);
+    const safetyTimer = setTimeout(() => setPageLoading(false), 5000);
 
     const textPromise = Promise.all(
       urls.map(async (url) => {
@@ -197,7 +183,6 @@ function PropertyDetail() {
       })
     );
 
-    // Preload first 4 gallery images (optimized)
     const imagesToPreload = property.gallery.slice(0, 4).map(img => 
       getOptimizedImageUrl(img, 'w_1200,q_auto,f_auto')
     );
@@ -216,18 +201,12 @@ function PropertyDetail() {
       });
   }, [property]);
 
-  // Sélection automatique d'une langue disponible
   useEffect(() => {
     if (!property) return;
-
     const availableLanguages = Object.keys(loadedLongTexts).filter(
       (lang) => loadedLongTexts[lang]?.trim() || loadedShortTexts[lang]?.trim(),
     );
-
-    if (
-      availableLanguages.length &&
-      !availableLanguages.includes(selectedLanguage)
-    ) {
+    if (availableLanguages.length && !availableLanguages.includes(selectedLanguage)) {
       setSelectedLanguage(availableLanguages[0] || "ENG");
     }
   }, [loadedLongTexts, loadedShortTexts, property, selectedLanguage]);
@@ -237,41 +216,65 @@ function PropertyDetail() {
       <div className="property-detail">
         <div className="container">
           <h1>Property Not Found</h1>
-          <Link to="/" className="back-btn">
-            ← Back to Home
-          </Link>
+          <Link to="/" className="back-btn">← Back to Home</Link>
         </div>
       </div>
     );
   }
 
-  // Langues disponibles pour l'affichage
   const availableLanguages = Object.keys(loadedLongTexts).filter((lang) =>
     loadedLongTexts[lang]?.trim() || loadedShortTexts[lang]?.trim()
   );
 
-// getRoomTitle moved to utils.js
-
   return (
     <div className="property-detail">
-      <header className="detail-header">
-        <div className="container">
-          <Link to="/" className="back-btn">
-            ← Back to Home
-          </Link>
-          <h1 dir="rtl">{getRoomTitle(property)}</h1>
+      <header className="top-nav">
+        <div className="brand" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+          <img src={logo} alt="Histora Logo" />
+          HISTORA
         </div>
+
+        <button className="hamburger" onClick={toggleMobileMenu} aria-label="Toggle menu">
+          <span className={`hamburger-line ${mobileMenuOpen ? "active" : ""}`}></span>
+          <span className={`hamburger-line ${mobileMenuOpen ? "active" : ""}`}></span>
+          <span className={`hamburger-line ${mobileMenuOpen ? "active" : ""}`}></span>
+        </button>
+
+        <nav className="menu">
+          <Link to="/" className="menu-link">Home</Link>
+          <Link to="/find" className="menu-link">Find</Link>
+          <Link to="/learn-more" className="menu-link">Learn More</Link>
+          <Link to="/contact" className="menu-link">Contact</Link>
+        </nav>
+
+        <button className="cta-btn">
+          <Link to="/learn-more">Learn More</Link>
+        </button>
       </header>
 
-      <div className="container">
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.nav
+            className="mobile-menu"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Link to="/" className="mobile-nav-link" onClick={closeMobileMenu}>Home</Link>
+            <Link to="/find" className="mobile-nav-link" onClick={closeMobileMenu}>Find</Link>
+            <Link to="/learn-more" className="mobile-nav-link" onClick={closeMobileMenu}>Learn More</Link>
+            <Link to="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+
+      <div className="container" style={{ paddingTop: "100px" }}>
         <div className="property-content">
-          {/* Galerie d'images */}
           <div className="property-gallery">
             <motion.div
               className="main-image-container"
-              onClick={() =>
-                !isDragging && setExpandedImage(selectedImageIndex)
-              }
+              onClick={() => !isDragging && setExpandedImage(selectedImageIndex)}
               whileHover={{ cursor: "pointer" }}
             >
               <motion.img
@@ -285,17 +288,9 @@ function PropertyDetail() {
                 onDragEnd={(_, info) => {
                   setIsDragging(false);
                   if (info.offset.x < -90) {
-                    setSelectedImageIndex((prevIndex) =>
-                      prevIndex === property.gallery.length - 1
-                        ? 0
-                        : prevIndex + 1,
-                    );
+                    setSelectedImageIndex((prevIndex) => prevIndex === property.gallery.length - 1 ? 0 : prevIndex + 1);
                   } else if (info.offset.x > 90) {
-                    setSelectedImageIndex((prevIndex) =>
-                      prevIndex === 0
-                        ? property.gallery.length - 1
-                        : prevIndex - 1,
-                    );
+                    setSelectedImageIndex((prevIndex) => prevIndex === 0 ? property.gallery.length - 1 : prevIndex - 1);
                   }
                 }}
                 whileTap={{ cursor: "grabbing" }}
@@ -320,14 +315,17 @@ function PropertyDetail() {
           </div>
 
           <div className="property-info">
-            {/* OVERVIEW - Affiche le Short Description */}
             <motion.div
               className="property-overview"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h2>Overview</h2>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h2 style={{ margin: 0 }}>Overview</h2>
+                <h1 dir="rtl" style={{ margin: 0, fontSize: '1.5rem', color: 'var(--primary-color)' }}>{getRoomTitle(property)}</h1>
+              </div>
+              
               {availableLanguages.length > 0 && (
                 <div className="language-toggle">
                   {availableLanguages.map((lang) => (
@@ -357,10 +355,7 @@ function PropertyDetail() {
                     const lines = text.split(/\r?\n/);
                     let titleIndex = -1;
                     for (let i = 0; i < lines.length; i++) {
-                      if (lines[i].trim()) {
-                        titleIndex = i;
-                        break;
-                      }
+                      if (lines[i].trim()) { titleIndex = i; break; }
                     }
                     if (titleIndex === -1) return <p>{text}</p>;
                     const title = lines[titleIndex].trim();
@@ -373,19 +368,6 @@ function PropertyDetail() {
                     );
                   })()
                 )}
-              </div>
-
-              <div className="property-specs">
-                <div className="spec-item">
-                  <span className="spec-label">Images:</span>
-                  <span className="spec-value">
-                    {property.gallery.length} photos
-                  </span>
-                </div>
-                <div className="spec-item">
-                  <span className="spec-label">Name:</span>
-                  <span className="spec-value" dir="rtl" style={{ display: 'inline-block' }}>{getRoomTitle(property)}</span>
-                </div>
               </div>
             </motion.div>
           </div>
@@ -412,10 +394,7 @@ function PropertyDetail() {
                 const lines = text.split(/\r?\n/);
                 let titleIndex = -1;
                 for (let i = 0; i < lines.length; i++) {
-                  if (lines[i].trim()) {
-                    titleIndex = i;
-                    break;
-                  }
+                  if (lines[i].trim()) { titleIndex = i; break; }
                 }
                 if (titleIndex === -1) return <p>{text}</p>;
                 const title = lines[titleIndex].trim();
@@ -431,15 +410,6 @@ function PropertyDetail() {
           </div>
         </motion.div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="coming-soon-heading"
-        >
-          Coming Soon
-        </motion.h2>
-
         <section className="experience-section">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -449,185 +419,67 @@ function PropertyDetail() {
             3D Experience & Audio Details
           </motion.h2>
           <div className="experience-grid">
-            <motion.article
-              className="experience-card"
-              whileHover={{ y: -6 }}
-              transition={{ type: "spring", stiffness: 220 }}
-            >
+            <motion.article className="experience-card" whileHover={{ y: -6 }}>
               <div className="experience-preview">
                 <img src={property.img} alt="3D model preview" />
               </div>
               <h3>3D Model Preview</h3>
-              <p>
-                Explore a realistic 3D visualization of the property layout and
-                materials. Use the preview to inspect textures, light, and
-                space.
-              </p>
+              <p>Explore a realistic 3D visualization of the property layout and materials.</p>
             </motion.article>
 
-            <motion.article
-              className="experience-card"
-              whileHover={{ y: -6 }}
-              transition={{ type: "spring", stiffness: 220 }}
-            >
-              {property.videos?.length ? (
-                <div
-                  className="experience-video-wrapper"
-                  onClick={() => setExpandedVideo(true)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      setExpandedVideo(true);
-                    }
-                  }}
-                >
-                  <video
-                    className="experience-video"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  >
-                    <source
-                      src={property.videos[0]}
-                      type={
-                        property.videos[0].endsWith(".webm")
-                          ? "video/webm"
-                          : "video/mp4"
-                      }
-                    />
-                    Your browser does not support video playback.
-                  </video>
-                </div>
+            <motion.article className="experience-card experience-card--featured" whileHover={{ y: -6 }}>
+              {show3D ? (
+                <STLViewer url={property.model3d} />
               ) : (
-                <div className="experience-icon">🎥</div>
+                <div className="experience-3d-placeholder">
+                  <div className="experience-icon">🧊</div>
+                  {property.model3d ? (
+                    <>
+                      <button className="launch-3d-btn" onClick={() => setShow3D(true)}>
+                        Launch 3D Experience
+                      </button>
+                      <p className="size-info">High-resolution STL Scan</p>
+                    </>
+                  ) : (
+                    <p className="coming-soon-text">3D Model Coming Soon</p>
+                  )}
+                </div>
               )}
-              <h3>Interactive Animation</h3>
-              <p>
-                Simulated walkthrough and scene animation help you feel the flow
-                of the home before visiting. This builds confidence in the
-                layout.
-              </p>
+              <h3>Interactive 3D Model</h3>
+              <p>Rotate, zoom, and explore every detail of this heritage space in full 3D.</p>
             </motion.article>
 
-            <motion.article
-              className="experience-card"
-              whileHover={{ y: -6 }}
-              transition={{ type: "spring", stiffness: 220 }}
-            >
+            <motion.article className="experience-card" whileHover={{ y: -6 }}>
               <div className="experience-icon">🔊</div>
               <h3>Audio Narrative</h3>
-              <p>
-                Listen to a short audio summary that highlights key sustainable
-                features and the story behind the design.
-              </p>
+              <p>Listen to a short audio summary that highlights key features.</p>
             </motion.article>
           </div>
         </section>
       </div>
 
-      {/* Modal pour l'image agrandie */}
       {expandedImage !== null && (
-        <motion.div
-          className="image-modal-overlay"
-          onClick={() => setExpandedImage(null)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="image-modal"
-            onClick={(e) => e.stopPropagation()}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-          >
-            <button
-              className="modal-close-btn"
-              onClick={() => setExpandedImage(null)}
-            >
-              ✕
-            </button>
-
+        <motion.div className="image-modal-overlay" onClick={() => setExpandedImage(null)}>
+          <motion.div className="image-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setExpandedImage(null)}>✕</button>
             <div className="modal-image-container">
-              <motion.img
-                src={property.gallery[expandedImage]}
-                alt="Expanded view"
-                className="expanded-image"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                key={expandedImage}
-              />
+              <motion.img src={property.gallery[expandedImage]} alt="Expanded view" className="expanded-image" key={expandedImage} />
             </div>
-
             <div className="modal-navigation">
-              <button
-                className="nav-btn prev-btn"
-                onClick={() =>
-                  setExpandedImage(
-                    expandedImage === 0
-                      ? property.gallery.length - 1
-                      : expandedImage - 1,
-                  )
-                }
-              >
-                ← Previous
-              </button>
-              <span className="image-counter">
-                {expandedImage + 1} / {property.gallery.length}
-              </span>
-              <button
-                className="nav-btn next-btn"
-                onClick={() =>
-                  setExpandedImage(
-                    expandedImage === property.gallery.length - 1
-                      ? 0
-                      : expandedImage + 1,
-                  )
-                }
-              >
-                Next →
-              </button>
+              <button className="nav-btn prev-btn" onClick={() => setExpandedImage(expandedImage === 0 ? property.gallery.length - 1 : expandedImage - 1)}>← Previous</button>
+              <span className="image-counter">{expandedImage + 1} / {property.gallery.length}</span>
+              <button className="nav-btn next-btn" onClick={() => setExpandedImage(expandedImage === property.gallery.length - 1 ? 0 : expandedImage + 1)}>Next →</button>
             </div>
           </motion.div>
         </motion.div>
       )}
 
-      {/* Modal pour la vidéo agrandie */}
       {expandedVideo && property.videos?.length && (
-        <motion.div
-          className="video-modal-overlay"
-          onClick={() => setExpandedVideo(false)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="video-modal"
-            onClick={(e) => e.stopPropagation()}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-          >
-            <button
-              className="modal-close-btn"
-              onClick={() => setExpandedVideo(false)}
-            >
-              ✕
-            </button>
-
+        <motion.div className="video-modal-overlay" onClick={() => setExpandedVideo(false)}>
+          <motion.div className="video-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setExpandedVideo(false)}>✕</button>
             <video className="expanded-video" autoPlay muted loop playsInline>
-              <source
-                src={property.videos[0]}
-                type={
-                  property.videos[0].endsWith(".webm")
-                    ? "video/webm"
-                    : "video/mp4"
-                }
-              />
-              Your browser does not support video playback.
+              <source src={property.videos[0]} type={property.videos[0].endsWith(".webm") ? "video/webm" : "video/mp4"} />
             </video>
           </motion.div>
         </motion.div>

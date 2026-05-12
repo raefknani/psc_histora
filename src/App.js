@@ -7,6 +7,7 @@ const Psc = lazy(() => import("./Psc"));
 const PropertyDetail = lazy(() => import("./PropertyDetail"));
 const LearnMore = lazy(() => import("./LearnMore"));
 const Contact = lazy(() => import("./Contact"));
+const FindUs = lazy(() => import("./FindUs"));
 
 // Premium loading fallback in foreground
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/find" element={<FindUs />} />
         </Routes>
       </Suspense>
     </Router>

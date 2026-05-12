@@ -15,7 +15,7 @@ async function fetchResources(resourceType) {
 
   do {
     let query = cloudinary.search
-      .expression(`folder:histora-psc/* AND resource_type:${resourceType}`)
+      .expression(`(folder:histora-psc/* OR folder:histora-psc/3D_models/* OR folder:histora-psc/*/3D_models/*) AND resource_type:${resourceType}`)
       .with_field('context')
       .with_field('metadata')
       .with_field('tags')
@@ -27,9 +27,9 @@ async function fetchResources(resourceType) {
     
     const result = await query.execute();
     
-    if (result.resources.length > 0 && allResources.length === 0) {
-       console.log(`Sample ${resourceType} full resource object:`);
-       console.log(JSON.stringify(result.resources[0], null, 2));
+    console.log(`Fetched ${result.resources.length} resources for ${resourceType}`);
+    if (result.resources.length > 0) {
+       console.log(`First resource public_id: ${result.resources[0].public_id}`);
     }
 
     allResources = allResources.concat(result.resources);
@@ -92,12 +92,21 @@ async function generateRoomsData() {
           rooms[category] = { title: category.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()) };
         }
         
-        try {
-          const response = await fetch(resource.secure_url);
-          const text = await response.text();
-          rooms[category].description = text.trim();
-        } catch (err) {
-          console.error(`Failed to fetch description for ${category}:`, err);
+        const isSTL = resource.format === "stl" || filename.toLowerCase().endsWith(".stl") || resource.public_id.toLowerCase().includes("3d_view");
+        const isTXT = resource.format === "txt" || filename.toLowerCase().endsWith(".txt");
+
+        if (isTXT) {
+          try {
+            console.log(`Fetching description for ${category}...`);
+            const response = await fetch(resource.secure_url);
+            const text = await response.text();
+            rooms[category].description = text.trim();
+          } catch (err) {
+            console.error(`Failed to fetch description for ${category}:`, err);
+          }
+        } else if (isSTL) {
+          console.log(`Found 3D model for ${category}: ${filename}`);
+          rooms[category].model3d = resource.secure_url;
         }
       }
     }
@@ -184,18 +193,22 @@ async function generateRoomsData() {
       img: room.img || "",
       gallery: room.gallery || [],
       videos: room.videos || [],
+      model3d: room.model3d || "",
       button: room.button || "View",
     }));
 
     // Optional: Sort by ID if it exists so the order remains consistent
     roomsData.sort((a, b) => a.id - b.id);
 
-    const content = `const roomsData = ${JSON.stringify(roomsData, null, 2)};\n\nexport default roomsData;\n`;
-
-    fs.writeFileSync("./src/roomsData.js", content);
-
-    console.log("roomsData.js generated successfully");
-    console.log(`Rooms updated: ${roomsData.length}`);
+    // Safety: Only write if we actually have rooms
+    if (roomsData.length > 0) {
+      const content = `const roomsData = ${JSON.stringify(roomsData, null, 2)};\n\nexport default roomsData;\n`;
+      fs.writeFileSync("./src/roomsData.js", content);
+      console.log("roomsData.js generated successfully");
+      console.log(`Rooms updated: ${roomsData.length}`);
+    } else {
+      console.warn("No rooms found in Cloudinary! Aborting write to prevent data loss.");
+    }
 
   } catch (error) {
     console.error("Error generating roomsData:", error);

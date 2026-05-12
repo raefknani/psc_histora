@@ -126,24 +126,8 @@ function Psc() {
 
         {/* Desktop Navigation */}
         <nav className="menu">
-          <button
-            className="nav-link"
-            onClick={() => (window.location.href = "/")}
-          >
-            Home
-          </button>
-          <button
-            className="nav-link"
-            onClick={() => (window.location.href = "/")}
-          >
-            Find
-          </button>
-          <button
-            className="nav-link"
-            onClick={() => (window.location.href = "/")}
-          >
-            Real Estate
-          </button>
+          <Link to="/" className="menu-link active">Home</Link>
+          <Link to="/find" className="menu-link">Find</Link>
           <Link to="/learn-more" className="menu-link">
             Learn More
           </Link>
@@ -167,33 +151,8 @@ function Psc() {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <button
-            className="mobile-nav-link"
-            onClick={() => {
-              window.location.href = "/";
-              closeMobileMenu();
-            }}
-          >
-            Home
-          </button>
-          <button
-            className="mobile-nav-link"
-            onClick={() => {
-              window.location.href = "/";
-              closeMobileMenu();
-            }}
-          >
-            Find
-          </button>
-          <button
-            className="mobile-nav-link"
-            onClick={() => {
-              window.location.href = "/";
-              closeMobileMenu();
-            }}
-          >
-            Real Estate
-          </button>
+            <Link to="/" className="mobile-nav-link active" onClick={closeMobileMenu}>Home</Link>
+            <Link to="/find" className="mobile-nav-link" onClick={closeMobileMenu}>Find</Link>
           <Link
             to="/learn-more"
             className="mobile-nav-link"
@@ -228,22 +187,14 @@ function Psc() {
         {!isVideoLoaded && <Loader />}
         <div className="overlay" />
 
-        <div className="hero-content">
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="subheading"
-          >
-            Explore homes rooted in heritage and tradition.
-          </motion.p>
+        {/* <div className="hero-content">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             className="hero-title"
           >
-            Discover Histora
+            Histora
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -251,24 +202,27 @@ function Psc() {
             transition={{ duration: 1.2, delay: 0.4 }}
             className="hero-text"
           >
-            Browse authentic households, cultural spaces, and preserved
-            interiors from everyday life in traditional homes.
+            A Living Archive of Traditional Heritage
           </motion.p>
+        </div> */}
 
-          {/* <div className="hero-actions">
-            <input
-              type="text"
-              placeholder="Search location, type, budget..."
-              className="search-input"
-            />
-            <button className="btn-primary">Browse Properties</button>
-          </div> */}
-        </div>
+        {/* Modern Scroll Indicator */}
+        <motion.div 
+          className="scroll-indicator"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+        >
+          <div className="mouse">
+            <div className="wheel"></div>
+          </div>
+          <span>Discover the story</span>
+        </motion.div>
       </section>
 
       <section className="features" id="about">
         <div className="intro-card">
-          <h2>Welcome</h2>
+          <h2>Preserving the Soul of Traditional Living</h2>
           {/* <p>
             Eco-friendly residences with calm modern design. Find your ideal
             home near forests, lakes and sustainable communities.
@@ -464,6 +418,9 @@ function Psc() {
               </li>
               <li>
                 <Link to="/contact">Contact</Link>
+              </li>
+              <li>
+                <Link to="/find">Find Us</Link>
               </li>
             </ul>
           </div>
