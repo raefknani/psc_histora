@@ -1291,6 +1291,16 @@ body {
   letter-spacing: 1px;
 }
 
+.coming-soon-text {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
 @media (max-width: 1023px) {
   .experience-grid {
     grid-template-columns: 1fr;

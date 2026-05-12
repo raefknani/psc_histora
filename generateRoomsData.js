@@ -15,7 +15,7 @@ async function fetchResources(resourceType) {
 
   do {
     let query = cloudinary.search
-      .expression(`(folder:histora-psc/* OR folder:histora-psc/3D_models/* OR folder:histora-psc/*/3D_models/*) AND resource_type:${resourceType}`)
+      .expression(`folder:histora-psc AND resource_type:${resourceType}`)
       .with_field('context')
       .with_field('metadata')
       .with_field('tags')
