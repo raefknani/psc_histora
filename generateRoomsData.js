@@ -195,6 +195,7 @@ async function generateRoomsData() {
       videos: room.videos || [],
       model3d: room.model3d || "",
       button: room.button || "View",
+      locked: false,
     }));
 
     // Optional: Sort by ID if it exists so the order remains consistent
