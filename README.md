@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# 🏛️ Histora
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Histora is an immersive and interactive web application dedicated to preserving and showcasing Tunisian cultural heritage, specifically from the Sahel region and the Kobba Museum in Sousse.
 
-## Available Scripts
+The application acts as a **virtual museum experience**, allowing users to explore historical life through themed rooms and interactive content.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📝 Project Description
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Histora offers an immersive journey through different aspects of traditional Tunisian life:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **The Souk (Market)**  
+  Discover traditional professions such as goldsmiths, barbers, and public scribes.
 
-### `npm test`
+- **Domestic Life**  
+  Experience wedding preparations (Zhaz, Henna), traditional cooking, and historical living rooms.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Crafts & Industry**  
+  Learn about traditional weaving and olive oil extraction processes.
 
-### `npm run build`
+The application is **multilingual (Arabic, French, English)** and includes a **secure access system**, where some sections are locked behind passwords obtained during a real museum visit. This creates a bridge between physical heritage and digital exploration.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 Technologies Used
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 🔹 Frontend & UI
+- **React 19** – Core framework for building a modular and reactive UI
+- **React Router DOM** – Client-side routing and navigation
+- **Framer Motion** – Smooth animations and micro-interactions
+- **Vanilla CSS** – Custom styling for a unique visual identity
 
-### `npm run eject`
+### 🔹 3D & Multimedia
+- **Three.js / @react-three/fiber / @react-three/drei** – 3D visualization of historical objects (STL models)
+- **Cloudinary** – Image and video storage, optimization, and delivery
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 🔹 Backend & Automation
+- **Supabase** – Database management and analytics tracking
+- **Node.js** – Backend scripts for data automation (e.g. `generateRoomsData.js`)
+- **Nodemailer** – Automated email reporting system
+- **GitHub Actions** – CI/CD pipelines and scheduled tasks
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🔹 Security & Environment
+- **dotenv** – Secure environment variable management
+- **Auth Utils (custom)** – Session handling with short-lived access control (1 minute expiration)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📌 Summary
 
-## Learn More
+Histora combines modern web technologies with cultural preservation.  
+It merges **3D visualization, automation, and multilingual UX** to create a digital museum experience that connects physical heritage with the digital world.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
