@@ -137,9 +137,12 @@ function Psc() {
         </nav>
 
         {/* CTA Button */}
-        <button className="cta-btn" onClick={closeMobileMenu}>
+        {/* <button className="cta-btn" onClick={closeMobileMenu}>
           <Link to="/learn-more">Learn More</Link>
-        </button>
+        </button> */}
+
+        {/* Empty div to balance the grid columns and keep the menu centered */}
+        <div className="nav-spacer"></div>
       </header>
 
       {/* Mobile Menu */}
