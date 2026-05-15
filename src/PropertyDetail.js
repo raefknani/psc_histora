@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getWithExpiry } from "./authUtils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,6 +9,8 @@ import logo from "./images/logo_psc-removebg-preview.png";
 import "./PropertyDetail.css";
 import "./psc.css";
 import STLViewer from "./components/STLViewer";
+
+
 
 // Parse le fichier texte pour extraire Long Description et Short Description
 const parseFullTextSections = (text) => {
@@ -110,10 +112,51 @@ function PropertyDetail() {
   const [isDragging, setIsDragging] = useState(false);
   const [show3D, setShow3D] = useState(false);
 
+  const galleryRef = useRef(null);
+  const modalGalleryRef = useRef(null);
+
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [modalWidth, setModalWidth] = useState(0);
+  useEffect(() => {
+    const updateWidth = () => {
+      if (galleryRef.current) {
+        setContainerWidth(galleryRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, [expandedImage]);
+
   // États pour les textes chargés
   const [loadedLongTexts, setLoadedLongTexts] = useState({ AR: "", FR: "", ENG: "" });
   const [loadedShortTexts, setLoadedShortTexts] = useState({ AR: "", FR: "", ENG: "" });
   const [pageLoading, setPageLoading] = useState(false);
+  useEffect(() => {
+  const updateModalWidth = () => {
+    if (modalGalleryRef.current) {
+      setModalWidth(modalGalleryRef.current.offsetWidth);
+    }
+  };
+
+  updateModalWidth();
+  window.addEventListener("resize", updateModalWidth);
+
+  return () => {
+    window.removeEventListener("resize", updateModalWidth);
+  };
+}, [expandedImage]);
+  // Lock body scroll when modals are open
+  useEffect(() => {
+    if (expandedImage !== null || expandedVideo || mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [expandedImage, expandedVideo, mobileMenuOpen]);
 
   // Gestion de la touche Echap
   useEffect(() => {
@@ -172,6 +215,7 @@ function PropertyDetail() {
     setPageLoading(true);
     const safetyTimer = setTimeout(() => setPageLoading(false), 5000);
 
+    // Load text data
     const textPromise = Promise.all(
       urls.map(async (url) => {
         try {
@@ -183,22 +227,30 @@ function PropertyDetail() {
       })
     );
 
-    const imagesToPreload = property.gallery.slice(0, 4).map(img => 
+    // Preload ONLY the first image (main view) to show the UI faster
+    const imagesToPreload = property.gallery.slice(0, 1).map(img => 
       getOptimizedImageUrl(img, 'w_1200,q_auto,f_auto')
     );
     const imagePromise = preloadImages(imagesToPreload);
 
-    Promise.all([textPromise, imagePromise])
-      .then(([textData]) => {
-        setPageLoading(false);
-        clearTimeout(safetyTimer);
-        processRawText(textData);
-      })
-      .catch((error) => {
-        console.error("Error loading page data:", error);
-        clearTimeout(safetyTimer);
-        setPageLoading(false);
-      });
+    // Show text as soon as it arrives, don't wait for all images
+    textPromise.then((textData) => {
+      processRawText(textData);
+      setPageLoading(false);
+      clearTimeout(safetyTimer);
+    }).catch(err => {
+      console.error("Text load error:", err);
+      setPageLoading(false);
+    });
+
+    // Images load in background
+    imagePromise.then(() => {
+      // Preload the rest of the gallery silently after the first one is ready
+      const restOfGallery = property.gallery.slice(1, 4).map(img => 
+        getOptimizedImageUrl(img, 'w_1200,q_auto,f_auto')
+      );
+      preloadImages(restOfGallery);
+    });
   }, [property]);
 
   useEffect(() => {
@@ -221,10 +273,12 @@ function PropertyDetail() {
       </div>
     );
   }
+  
 
   const availableLanguages = Object.keys(loadedLongTexts).filter((lang) =>
     loadedLongTexts[lang]?.trim() || loadedShortTexts[lang]?.trim()
   );
+  
 
   return (
     <div className="property-detail">
@@ -247,9 +301,9 @@ function PropertyDetail() {
           <Link to="/contact" className="menu-link">Contact</Link>
         </nav>
 
-        <button className="cta-btn">
+        {/* <button className="cta-btn">
           <Link to="/learn-more">Learn More</Link>
-        </button>
+        </button> */}
       </header>
 
       <AnimatePresence>
@@ -271,35 +325,76 @@ function PropertyDetail() {
 
       <div className="container" style={{ paddingTop: "100px" }}>
         <div className="property-content">
-          <div className="property-gallery">
-            <motion.div
-              className="main-image-container"
-              onClick={() => !isDragging && setExpandedImage(selectedImageIndex)}
-              whileHover={{ cursor: "pointer" }}
-            >
-              <motion.img
-                src={getOptimizedImageUrl(property.gallery[selectedImageIndex], 'w_1200,q_auto,f_auto')}
-                alt={property.title}
-                className="main-image"
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.13}
-                onDragStart={() => setIsDragging(true)}
-                onDragEnd={(_, info) => {
-                  setIsDragging(false);
-                  if (info.offset.x < -90) {
-                    setSelectedImageIndex((prevIndex) => prevIndex === property.gallery.length - 1 ? 0 : prevIndex + 1);
-                  } else if (info.offset.x > 90) {
-                    setSelectedImageIndex((prevIndex) => prevIndex === 0 ? property.gallery.length - 1 : prevIndex - 1);
-                  }
-                }}
-                whileTap={{ cursor: "grabbing" }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                key={selectedImageIndex}
-              />
-            </motion.div>
+          <div className="property-gallery" style={{ position: 'relative' }} ref={galleryRef}>
+            <div className="main-image-container" style={{ overflow: 'hidden', position: 'relative', width: '100%' }}>
+              <motion.div
+  className="main-image-strip"
+  drag="x"
+  dragElastic={0.08}
+  dragMomentum={false}
+  dragSnapToOrigin={false}
+  onDragStart={() => {
+    setIsDragging(true);
+  }}
+  onDragEnd={(_, info) => {
+    const swipeThreshold = containerWidth * 0.18;
+
+    if (info.offset.x < -swipeThreshold) {
+      setSelectedImageIndex((prev) =>
+        prev < property.gallery.length - 1 ? prev + 1 : prev
+      );
+    }
+
+    if (info.offset.x > swipeThreshold) {
+      setSelectedImageIndex((prev) =>
+        prev > 0 ? prev - 1 : prev
+      );
+    }
+
+    setTimeout(() => {
+      setIsDragging(false);
+    }, 150);
+  }}
+  animate={{
+    x: -selectedImageIndex * containerWidth,
+  }}
+  transition={{
+    type: "spring",
+    stiffness: 220,
+    damping: 28,
+  }}
+  style={{
+    display: "flex",
+    width: `${property.gallery.length * 100}%`,
+    cursor: isDragging ? "grabbing" : "grab",
+    touchAction: "pan-y",
+  }}
+>
+  {property.gallery.map((img, index) => (
+    <img
+      key={index}
+      src={getOptimizedImageUrl(img, "w_1200,q_auto,f_auto")}
+      alt={`${property.title} ${index + 1}`}
+      className="main-image"
+      style={{
+        width: `${containerWidth}px`,
+        flexShrink: 0,
+        objectFit: "cover",
+        height: "400px",
+        cursor: "pointer",
+        userSelect: "none",
+        WebkitUserDrag: "none",
+      }}
+      draggable={false}
+      onClick={() => {
+        if (!isDragging) {
+          setExpandedImage(index);
+        }
+      }}
+    />
+  ))}
+</motion.div>
+            </div>
             <div className="gallery-thumbs">
               {property.gallery.map((img, index) => (
                 <img
@@ -478,21 +573,151 @@ function PropertyDetail() {
       </div>
 
       {expandedImage !== null && (
-        <motion.div className="image-modal-overlay" onClick={() => setExpandedImage(null)}>
-          <motion.div className="image-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={() => setExpandedImage(null)}>✕</button>
-            <div className="modal-image-container">
-              <motion.img src={property.gallery[expandedImage]} alt="Expanded view" className="expanded-image" key={expandedImage} />
-            </div>
-            <div className="modal-navigation">
-              <button className="nav-btn prev-btn" onClick={() => setExpandedImage(expandedImage === 0 ? property.gallery.length - 1 : expandedImage - 1)}>← Previous</button>
-              <span className="image-counter">{expandedImage + 1} / {property.gallery.length}</span>
-              <button className="nav-btn next-btn" onClick={() => setExpandedImage(expandedImage === property.gallery.length - 1 ? 0 : expandedImage + 1)}>Next →</button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
+  <motion.div
+    className="image-modal-overlay"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    onClick={() => setExpandedImage(null)}
+  >
+    <button
+      className="modal-close-btn"
+      onClick={() => setExpandedImage(null)}
+    >
+      ✕
+    </button>
 
+    <div
+      className="image-modal-content"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        className="floating-nav-btn prev-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+
+          const prevIndex =
+            expandedImage > 0
+              ? expandedImage - 1
+              : property.gallery.length - 1;
+
+          setExpandedImage(prevIndex);
+          setSelectedImageIndex(prevIndex);
+        }}
+      >
+        ‹
+      </button>
+
+      {/* SAME STRUCTURE AS MAIN SLIDER */}
+      <div
+        ref={modalGalleryRef}
+        className="modal-image-container"
+      >
+        <motion.div
+          className="modal-image-strip"
+          drag="x"
+          dragElastic={0.08}
+          dragMomentum={false}
+          dragSnapToOrigin={false}
+          onDragStart={() => {
+            setIsDragging(true);
+          }}
+          onDragEnd={(_, info) => {
+            const swipeThreshold = modalWidth * 0.18;
+
+            if (info.offset.x < -swipeThreshold) {
+              const nextIndex =
+                expandedImage < property.gallery.length - 1
+                  ? expandedImage + 1
+                  : expandedImage;
+
+              setExpandedImage(nextIndex);
+              setSelectedImageIndex(nextIndex);
+            }
+
+            if (info.offset.x > swipeThreshold) {
+              const prevIndex =
+                expandedImage > 0
+                  ? expandedImage - 1
+                  : expandedImage;
+
+              setExpandedImage(prevIndex);
+              setSelectedImageIndex(prevIndex);
+            }
+
+            setTimeout(() => {
+              setIsDragging(false);
+            }, 150);
+          }}
+          animate={{
+            x: -expandedImage * modalWidth,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 220,
+            damping: 28,
+          }}
+          style={{
+            display: "flex",
+            width: `${property.gallery.length * modalWidth}px`,
+            height: "100%",
+            cursor: isDragging ? "grabbing" : "grab",
+            touchAction: "pan-y",
+          }}
+        >
+          {property.gallery.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`${property.title} ${index + 1}`}
+              className="expanded-image-slide"
+              draggable={false}
+              onClick={() => {
+                if (!isDragging) {
+                  setExpandedImage(null);
+                }
+              }}
+              style={{
+                width: `${modalWidth}px`,
+                height: "100vh",
+                flexShrink: 0,
+                objectFit: "contain",
+                userSelect: "none",
+                WebkitUserDrag: "none",
+                padding: "40px",
+                boxSizing: "border-box",
+                cursor: "zoom-out",
+              }}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      <button
+        className="floating-nav-btn next-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+
+          const nextIndex =
+            expandedImage < property.gallery.length - 1
+              ? expandedImage + 1
+              : 0;
+
+          setExpandedImage(nextIndex);
+          setSelectedImageIndex(nextIndex);
+        }}
+      >
+        ›
+      </button>
+    </div>
+
+    <div className="modal-footer">
+      <span className="image-counter">
+        {expandedImage + 1} / {property.gallery.length}
+      </span>
+    </div>
+  </motion.div>
+)}
       {expandedVideo && property.videos?.length && (
         <motion.div className="video-modal-overlay" onClick={() => setExpandedVideo(false)}>
           <motion.div className="video-modal" onClick={(e) => e.stopPropagation()}>
