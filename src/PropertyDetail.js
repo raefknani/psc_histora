@@ -115,8 +115,21 @@ function PropertyDetail() {
   const galleryRef = useRef(null);
   const modalGalleryRef = useRef(null);
 
+
   const [containerWidth, setContainerWidth] = useState(0);
   const [modalWidth, setModalWidth] = useState(0);
+
+  useEffect(() => {
+  const update = () => {
+    if (galleryRef.current) {
+      setContainerWidth(galleryRef.current.offsetWidth);
+    }
+  };
+
+  update();
+  window.addEventListener("resize", update);
+  return () => window.removeEventListener("resize", update);
+}, []);
   useEffect(() => {
     const updateWidth = () => {
       if (galleryRef.current) {
@@ -132,19 +145,18 @@ function PropertyDetail() {
   const [loadedLongTexts, setLoadedLongTexts] = useState({ AR: "", FR: "", ENG: "" });
   const [loadedShortTexts, setLoadedShortTexts] = useState({ AR: "", FR: "", ENG: "" });
   const [pageLoading, setPageLoading] = useState(false);
-useEffect(() => {
+  useEffect(() => {
   const updateModalWidth = () => {
-    setModalWidth(window.innerWidth);
+    if (modalGalleryRef.current) {
+      setModalWidth(modalGalleryRef.current.clientWidth);
+    }
   };
 
   updateModalWidth();
 
   window.addEventListener("resize", updateModalWidth);
-
-  return () => {
-    window.removeEventListener("resize", updateModalWidth);
-  };
-}, []);
+  return () => window.removeEventListener("resize", updateModalWidth);
+}, [expandedImage]);
   // Lock body scroll when modals are open
   useEffect(() => {
     if (expandedImage !== null || expandedVideo || mobileMenuOpen) {
@@ -328,45 +340,63 @@ useEffect(() => {
             <div className="main-image-container" style={{ overflow: 'hidden', position: 'relative', width: '100%' }}>
               <motion.div
   className="main-image-strip"
-  drag="x"
-  dragElastic={0.08}
+  drag={
+    property.gallery.length <= 1
+      ? false
+      : "x"
+  }
+  dragElastic={0}
   dragMomentum={false}
-  dragSnapToOrigin={false}
+  dragConstraints={{
+    left:
+      selectedImageIndex === property.gallery.length - 1
+        ? -selectedImageIndex * containerWidth
+        : -999999,
+
+    right:
+      selectedImageIndex === 0
+        ? -selectedImageIndex * containerWidth
+        : 999999,
+  }}
   onDragStart={() => {
     setIsDragging(true);
   }}
   onDragEnd={(_, info) => {
     const swipeThreshold = containerWidth * 0.18;
 
-    if (info.offset.x < -swipeThreshold) {
-      setSelectedImageIndex((prev) =>
-        prev < property.gallery.length - 1 ? prev + 1 : prev
-      );
+    // NEXT
+    if (
+      info.offset.x < -swipeThreshold &&
+      selectedImageIndex < property.gallery.length - 1
+    ) {
+      setSelectedImageIndex((prev) => prev + 1);
     }
 
-    if (info.offset.x > swipeThreshold) {
-      setSelectedImageIndex((prev) =>
-        prev > 0 ? prev - 1 : prev
-      );
+    // PREV
+    if (
+      info.offset.x > swipeThreshold &&
+      selectedImageIndex > 0
+    ) {
+      setSelectedImageIndex((prev) => prev - 1);
     }
 
     setTimeout(() => {
       setIsDragging(false);
-    }, 150);
+    }, 120);
   }}
   animate={{
     x: -selectedImageIndex * containerWidth,
   }}
   transition={{
     type: "spring",
-    stiffness: 220,
-    damping: 28,
+    stiffness: 260,
+    damping: 30,
   }}
   style={{
     display: "flex",
     width: `${property.gallery.length * 100}%`,
-    cursor: isDragging ? "grabbing" : "grab",
     touchAction: "pan-y",
+    cursor: isDragging ? "grabbing" : "grab",
   }}
 >
   {property.gallery.map((img, index) => (
@@ -590,81 +620,70 @@ useEffect(() => {
       className="image-modal-content"
       onClick={(e) => e.stopPropagation()}
     >
-      {/* PREV BUTTON */}
       <button
-        className="floating-nav-btn prev-btn"
-        onClick={(e) => {
-          e.stopPropagation();
+  className="floating-nav-btn prev-btn"
+  onClick={(e) => {
+    e.stopPropagation();
 
-          const prevIndex = Math.max(expandedImage - 1, 0);
+    if (expandedImage > 0) {
+      const prevIndex = expandedImage - 1;
 
-          setExpandedImage(prevIndex);
-          setSelectedImageIndex(prevIndex);
-        }}
-        aria-label="Previous image"
-      >
-        ‹
-      </button>
+      setExpandedImage(prevIndex);
+      setSelectedImageIndex(prevIndex);
+    }
+  }}
+>
+  ‹
+</button>
 
-      {/* SLIDER */}
-      <div
-        ref={modalGalleryRef}
-        className="modal-image-container"
-      >
+      {/* SAME STRUCTURE AS MAIN SLIDER */}
+      <div ref={modalGalleryRef} className="modal-image-container">
         <motion.div
-          className="modal-image-strip"
-          drag="x"
-          dragElastic={0.08}
-          dragMomentum={false}
-          dragSnapToOrigin={false}
-          onDragStart={() => {
-            setIsDragging(true);
-          }}
-          onDragEnd={(_, info) => {
-            const swipeThreshold = modalWidth * 0.18;
+  className="modal-image-strip"
+  drag="x"
+  dragElastic={0}
+  dragMomentum={false}
+  dragConstraints={{
+    left: -((property.gallery.length - 1) * modalWidth),
+    right: 0,
+  }}
+  animate={{
+    x: -expandedImage * modalWidth,
+  }}
+  transition={{
+    type: "spring",
+    stiffness: 260,
+    damping: 30,
+  }}
+  onDragStart={() => setIsDragging(true)}
+  onDragEnd={(_, info) => {
+    const threshold = modalWidth * 0.18;
 
-            // NEXT
-            if (info.offset.x < -swipeThreshold) {
-              const nextIndex = Math.min(
-                expandedImage + 1,
-                property.gallery.length - 1
-              );
+    if (
+      info.offset.x < -threshold &&
+      expandedImage < property.gallery.length - 1
+    ) {
+      const next = expandedImage + 1;
+      setExpandedImage(next);
+      setSelectedImageIndex(next);
+    }
 
-              setExpandedImage(nextIndex);
-              setSelectedImageIndex(nextIndex);
-            }
+    if (info.offset.x > threshold && expandedImage > 0) {
+      const prev = expandedImage - 1;
+      setExpandedImage(prev);
+      setSelectedImageIndex(prev);
+    }
 
-            // PREV
-            if (info.offset.x > swipeThreshold) {
-              const prevIndex = Math.max(
-                expandedImage - 1,
-                0
-              );
-
-              setExpandedImage(prevIndex);
-              setSelectedImageIndex(prevIndex);
-            }
-
-            setTimeout(() => {
-              setIsDragging(false);
-            }, 150);
-          }}
-          animate={{
-            x: -expandedImage * modalWidth,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 220,
-            damping: 28,
-          }}
-          style={{
-            display: "flex",
-            width: `${property.gallery.length * 100}vw`,
-            height: "100%",
-            cursor: isDragging ? "grabbing" : "grab",
-            touchAction: "pan-y",
-          }}
-        >
+    setTimeout(() => setIsDragging(false), 100);
+  }}
+  style={{
+    display: "flex",
+    width: `${property.gallery.length * modalWidth}px`,
+    height: "100%",
+    cursor: isDragging ? "grabbing" : "grab",
+    touchAction: "pan-y",
+  }}
+>
           {property.gallery.map((img, index) => (
             <img
               key={index}
@@ -678,14 +697,14 @@ useEffect(() => {
                 }
               }}
               style={{
-                width: "100vw",
+                width: `${modalWidth}px`,
                 height: "100vh",
                 flexShrink: 0,
                 objectFit: "contain",
-                padding: "40px",
-                boxSizing: "border-box",
                 userSelect: "none",
                 WebkitUserDrag: "none",
+                padding: "40px",
+                boxSizing: "border-box",
                 cursor: "zoom-out",
               }}
             />
@@ -693,27 +712,23 @@ useEffect(() => {
         </motion.div>
       </div>
 
-      {/* NEXT BUTTON */}
-      <button
-        className="floating-nav-btn next-btn"
-        onClick={(e) => {
-          e.stopPropagation();
+     <button
+  className="floating-nav-btn next-btn"
+  onClick={(e) => {
+    e.stopPropagation();
 
-          const nextIndex = Math.min(
-            expandedImage + 1,
-            property.gallery.length - 1
-          );
+    if (expandedImage < property.gallery.length - 1) {
+      const nextIndex = expandedImage + 1;
 
-          setExpandedImage(nextIndex);
-          setSelectedImageIndex(nextIndex);
-        }}
-        aria-label="Next image"
-      >
-        ›
-      </button>
+      setExpandedImage(nextIndex);
+      setSelectedImageIndex(nextIndex);
+    }
+  }}
+>
+  ›
+</button>
     </div>
 
-    {/* FOOTER */}
     <div className="modal-footer">
       <span className="image-counter">
         {expandedImage + 1} / {property.gallery.length}
