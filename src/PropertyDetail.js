@@ -132,20 +132,19 @@ function PropertyDetail() {
   const [loadedLongTexts, setLoadedLongTexts] = useState({ AR: "", FR: "", ENG: "" });
   const [loadedShortTexts, setLoadedShortTexts] = useState({ AR: "", FR: "", ENG: "" });
   const [pageLoading, setPageLoading] = useState(false);
-  useEffect(() => {
+useEffect(() => {
   const updateModalWidth = () => {
-    if (modalGalleryRef.current) {
-      setModalWidth(modalGalleryRef.current.offsetWidth);
-    }
+    setModalWidth(window.innerWidth);
   };
 
   updateModalWidth();
+
   window.addEventListener("resize", updateModalWidth);
 
   return () => {
     window.removeEventListener("resize", updateModalWidth);
   };
-}, [expandedImage]);
+}, []);
   // Lock body scroll when modals are open
   useEffect(() => {
     if (expandedImage !== null || expandedVideo || mobileMenuOpen) {
@@ -591,24 +590,23 @@ function PropertyDetail() {
       className="image-modal-content"
       onClick={(e) => e.stopPropagation()}
     >
+      {/* PREV BUTTON */}
       <button
         className="floating-nav-btn prev-btn"
         onClick={(e) => {
           e.stopPropagation();
 
-          const prevIndex =
-            expandedImage > 0
-              ? expandedImage - 1
-              : property.gallery.length - 1;
+          const prevIndex = Math.max(expandedImage - 1, 0);
 
           setExpandedImage(prevIndex);
           setSelectedImageIndex(prevIndex);
         }}
+        aria-label="Previous image"
       >
         ‹
       </button>
 
-      {/* SAME STRUCTURE AS MAIN SLIDER */}
+      {/* SLIDER */}
       <div
         ref={modalGalleryRef}
         className="modal-image-container"
@@ -625,21 +623,23 @@ function PropertyDetail() {
           onDragEnd={(_, info) => {
             const swipeThreshold = modalWidth * 0.18;
 
+            // NEXT
             if (info.offset.x < -swipeThreshold) {
-              const nextIndex =
-                expandedImage < property.gallery.length - 1
-                  ? expandedImage + 1
-                  : expandedImage;
+              const nextIndex = Math.min(
+                expandedImage + 1,
+                property.gallery.length - 1
+              );
 
               setExpandedImage(nextIndex);
               setSelectedImageIndex(nextIndex);
             }
 
+            // PREV
             if (info.offset.x > swipeThreshold) {
-              const prevIndex =
-                expandedImage > 0
-                  ? expandedImage - 1
-                  : expandedImage;
+              const prevIndex = Math.max(
+                expandedImage - 1,
+                0
+              );
 
               setExpandedImage(prevIndex);
               setSelectedImageIndex(prevIndex);
@@ -659,7 +659,7 @@ function PropertyDetail() {
           }}
           style={{
             display: "flex",
-            width: `${property.gallery.length * modalWidth}px`,
+            width: `${property.gallery.length * 100}vw`,
             height: "100%",
             cursor: isDragging ? "grabbing" : "grab",
             touchAction: "pan-y",
@@ -678,14 +678,14 @@ function PropertyDetail() {
                 }
               }}
               style={{
-                width: `${modalWidth}px`,
+                width: "100vw",
                 height: "100vh",
                 flexShrink: 0,
                 objectFit: "contain",
-                userSelect: "none",
-                WebkitUserDrag: "none",
                 padding: "40px",
                 boxSizing: "border-box",
+                userSelect: "none",
+                WebkitUserDrag: "none",
                 cursor: "zoom-out",
               }}
             />
@@ -693,24 +693,27 @@ function PropertyDetail() {
         </motion.div>
       </div>
 
+      {/* NEXT BUTTON */}
       <button
         className="floating-nav-btn next-btn"
         onClick={(e) => {
           e.stopPropagation();
 
-          const nextIndex =
-            expandedImage < property.gallery.length - 1
-              ? expandedImage + 1
-              : 0;
+          const nextIndex = Math.min(
+            expandedImage + 1,
+            property.gallery.length - 1
+          );
 
           setExpandedImage(nextIndex);
           setSelectedImageIndex(nextIndex);
         }}
+        aria-label="Next image"
       >
         ›
       </button>
     </div>
 
+    {/* FOOTER */}
     <div className="modal-footer">
       <span className="image-counter">
         {expandedImage + 1} / {property.gallery.length}
