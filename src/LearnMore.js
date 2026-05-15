@@ -80,9 +80,9 @@ function LearnMore() {
           <Link to="/contact" className="menu-link">Contact</Link>
         </nav>
 
-        <button className="cta-btn">
+        {/* <button className="cta-btn">
           <Link to="/learn-more">Learn More</Link>
-        </button>
+        </button> */}
       </header>
 
       <AnimatePresence>
@@ -102,7 +102,7 @@ function LearnMore() {
         )}
       </AnimatePresence>
 
-      <div className="container" style={{ paddingTop: "80px" }}>
+      <div className="container" >
         <div className="learn-more-content">
           <motion.section
             className="intro-section"

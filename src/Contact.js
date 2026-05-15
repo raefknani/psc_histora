@@ -59,9 +59,9 @@ function Contact() {
           <Link to="/contact" className="menu-link active">Contact</Link>
         </nav>
 
-        <button className="cta-btn">
+        {/* <button className="cta-btn">
           <Link to="/learn-more">Learn More</Link>
-        </button>
+        </button> */}
       </header>
 
       <AnimatePresence>
@@ -81,7 +81,7 @@ function Contact() {
         )}
       </AnimatePresence>
 
-      <div className="container" style={{ paddingTop: "80px" }}>
+      <div className="container">
         <div className="contact-content">
           <motion.div
             className="contact-info"
