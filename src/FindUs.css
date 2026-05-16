@@ -1,0 +1,392 @@
+.find-us-container {
+  min-height: 100vh;
+  background: #f2dec8;
+  color: #2a2f28;
+}
+
+.find-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.find-hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.find-hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: #8c5a3c;
+  margin-bottom: 15px;
+  font-weight: 800;
+  text-shadow: none;
+}
+
+.find-hero p {
+  font-size: 1.1rem;
+  color: #5c3520;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.top-map-section {
+  margin-bottom: 80px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.map-wrapper {
+  position: relative;
+  border-radius: 32px;
+  box-shadow: 0 30px 60px rgba(140, 90, 60, 0.15);
+  border: 1px solid rgba(140, 90, 60, 0.1);
+  background: transparent;
+  overflow: visible; /* Allow buttons to bleed out */
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 7px; /* Move radius here */
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.map-wrapper:hover .map-image {
+  transform: scale(1.02);
+}
+
+.expand-hint {
+  position: absolute;
+  bottom: -24px;
+  right: -24px;
+  background: rgba(140, 90, 60, 0.25); /* Transparent brown */
+  backdrop-filter: blur(12px);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 10;
+}
+
+.map-wrapper:hover .expand-hint {
+  transform: scale(1.1);
+  background: #8c5a3c;
+  box-shadow: 0 12px 30px rgba(140, 90, 60, 0.4);
+}
+
+@media (max-width: 768px) {
+  .expand-hint {
+    bottom: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    border-top-left-radius: 14px;
+  }
+  
+  .expand-hint svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.find-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-bottom: 80px;
+  align-items: start;
+}
+
+.guide-card {
+  background: #ffffff;
+  padding: 48px;
+  border-radius: 32px;
+  box-shadow: 0 15px 40px rgba(140, 90, 60, 0.06);
+  border: 1px solid rgba(140, 90, 60, 0.08);
+}
+
+.guide-label {
+  display: inline-block;
+  background: #fdf2e9;
+  color: #8c5a3c;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.guide-card h2 {
+  font-size: 2.2rem;
+  color: #8c5a3c;
+  margin-bottom: 20px;
+}
+
+.guide-card p {
+  color: #4d614f;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.route-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.route-step {
+  display: flex;
+  gap: 20px;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: #8c5a3c;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.step-text h3 {
+  font-size: 1.2rem;
+  color: #8c5a3c;
+  margin-bottom: 5px;
+}
+
+.step-text p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.video-frame {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  padding: 12px;
+  border-radius: 32px;
+  box-shadow: 0 30px 60px rgba(140, 90, 60, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.4s ease;
+}
+
+.video-frame:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 40px 80px rgba(140, 90, 60, 0.18);
+}
+
+.video-placeholder {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  background: #000;
+}
+
+.museum-guide-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  padding: 24px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.find-footer {
+  padding: 40px 24px 80px;
+  text-align: center;
+}
+
+.find-footer .back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: #8c5a3c;
+  padding: 14px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(140, 90, 60, 0.15);
+  transition: all 0.3s ease;
+}
+
+.find-footer .back-btn:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 8px 25px rgba(140, 90, 60, 0.25);
+}
+
+/* Expanded Image Lightbox */
+.expanded-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(20, 15, 10, 0.95);
+  backdrop-filter: blur(15px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: zoom-out;
+}
+
+.expanded-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  cursor: default;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+  display: flex;
+  background: black;
+  overflow: visible; /* Allow close btn to bleed */
+  border-radius: 20px;
+}
+
+.expanded-content img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 7px;
+}
+
+.close-expanded {
+  position: absolute;
+  top: -25px;
+  right: -25px;
+  background: rgba(140, 90, 60, 0.4); /* Transparent brown */
+  backdrop-filter: blur(15px);
+  border-radius: 50%; /* Let's make the close button circular for this style */
+  border: 2px solid white;
+  width: 50px;
+  height: 50px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.close-expanded:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.brand-logo-img {
+  transition: transform 0.3s ease;
+}
+
+.brand-logo-img:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .find-main {
+    padding: 20px 16px;
+  }
+
+  .find-hero {
+    margin-bottom: 40px;
+  }
+
+  .find-hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .find-hero p {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+
+  .top-map-section {
+    margin-bottom: 40px;
+  }
+
+  .map-wrapper {
+    border-radius: 20px;
+  }
+
+  .find-grid {
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .guide-card {
+    padding: 30px 20px;
+    border-radius: 24px;
+  }
+
+  .guide-card h2 {
+    font-size: 1.8rem;
+  }
+
+  .video-frame {
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  .expanded-overlay {
+    padding: 10px;
+  }
+  
+  .expanded-content {
+    border-radius: 0;
+  }
+
+  .close-expanded {
+    top: -20px;
+    right: -20px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .expand-hint {
+    bottom: -18px;
+    right: -18px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 968px) {
+  .find-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./images/logo_psc-removebg-preview.png";
 import "./psc.css";
+import "./FindUs.css";
 
 function FindUs() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [expandedImage, setExpandedImage] = useState(null);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -24,9 +26,17 @@ function FindUs() {
       className="find-us-container"
     >
       <header className="top-nav">
-        <div className="brand" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
-          <img src={logo} alt="Histora Logo" />
-          HISTORA
+        <div className="brand" style={{ cursor: "pointer" }}>
+          <img 
+            src={logo} 
+            alt="Histora Logo" 
+            onClick={(e) => {
+              e.stopPropagation();
+              setExpandedImage(logo);
+            }}
+            className="brand-logo-img"
+          />
+          <span onClick={() => navigate("/")}>HISTORA</span>
         </div>
 
         {/* Hamburger Menu Button */}
@@ -103,14 +113,23 @@ function FindUs() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="map-wrapper map-wrapper--hero">
+          <div 
+            className="map-wrapper map-wrapper--hero"
+            onClick={() => setExpandedImage("https://res.cloudinary.com/def04uybd/image/upload/q_auto/f_auto/v1778613073/muse_map_nffg7g.png")}
+            style={{ cursor: "zoom-in" }}
+          >
             <img 
               src="https://res.cloudinary.com/def04uybd/image/upload/q_auto/f_auto/v1778613073/muse_map_nffg7g.png" 
               alt="Museum Location Map" 
               className="map-image"
             />
-            <div className="map-overlay">
-              <span>Museum Location Map</span>
+            <div className="expand-hint">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <polyline points="9 21 3 21 3 15"></polyline>
+                <line x1="21" y1="3" x2="14" y2="10"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+              </svg>
             </div>
           </div>
         </motion.section>
@@ -186,6 +205,35 @@ function FindUs() {
           <span className="arrow">←</span> Return to Archive
         </Link>
       </footer>
+
+      {/* Expanded Image Modal */}
+      <AnimatePresence>
+        {expandedImage && (
+          <motion.div 
+            className="expanded-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setExpandedImage(null)}
+          >
+            <motion.div 
+              className="expanded-content"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img src={expandedImage} alt="Expanded View" />
+              <button 
+                className="close-expanded"
+                onClick={() => setExpandedImage(null)}
+              >
+                ×
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
