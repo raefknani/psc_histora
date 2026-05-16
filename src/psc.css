@@ -505,6 +505,7 @@ body {
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   will-change: transform, box-shadow;
   cursor: pointer;
+  contain: paint; /* Better performance by isolating repaints */
 }
 
 .info-card:hover {
@@ -545,7 +546,8 @@ body {
 }
 
 .card-img-blurred {
-  filter: blur(8px) brightness(0.85);
+  filter: blur(4px) brightness(0.85); /* Reduced blur for performance */
+  will-change: filter; /* Hardware acceleration hint */
 }
 
 .card-lock-overlay {
@@ -605,27 +607,30 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(20, 10, 5, 0.6);
-  backdrop-filter: blur(6px);
+  background: rgba(20, 10, 5, 0.65);
+  backdrop-filter: blur(4px); /* Reduced blur for performance */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
+  will-change: opacity, backdrop-filter;
+  transform: translateZ(0); /* Hardware acceleration */
 }
 
 .lock-modal {
   background: linear-gradient(145deg, #fff8f2, #fff3ea);
   border: 1px solid rgba(140, 90, 60, 0.2);
-  border-radius: 24px;
-  box-shadow: 0 32px 80px rgba(80, 40, 15, 0.35);
-  padding: 48px 40px 40px;
-  max-width: 400px;
-  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(80, 40, 15, 0.25); /* Optimized shadow */
+  padding: 32px 24px 28px;
+  max-width: 320px; /* Shrunk from 400px */
+  width: 90%;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  will-change: transform, opacity;
 }
 
 .lock-modal--expired {
@@ -633,15 +638,15 @@ body {
 }
 
 .lock-modal-icon {
-  width: 72px;
-  height: 72px;
+  width: 56px; /* Shrunk from 72px */
+  height: 56px;
   border-radius: 50%;
   background: linear-gradient(135deg, #c69a82, #8c5a3c);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
-  box-shadow: 0 8px 24px rgba(140, 90, 60, 0.35);
+  margin-bottom: 4px;
+  box-shadow: 0 6px 16px rgba(140, 90, 60, 0.25);
 }
 
 .lock-modal-icon--expired {
@@ -657,7 +662,7 @@ body {
 
 .lock-modal-title {
   margin: 0;
-  font-size: 1.6rem;
+  font-size: 1.3rem; /* Shrunk from 1.6rem */
   font-weight: 800;
   color: #5c3520;
   letter-spacing: -0.3px;
@@ -665,63 +670,63 @@ body {
 
 .lock-modal-text {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.85rem; /* Shrunk from 1rem */
   color: #8c6a55;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .lock-modal-cta {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 0.85rem; /* Shrunk from 1.05rem */
   font-weight: 700;
   color: #8c5a3c;
   background: rgba(140, 90, 60, 0.08);
   border: 1px solid rgba(140, 90, 60, 0.2);
-  border-radius: 12px;
-  padding: 14px 20px;
-  line-height: 1.5;
+  border-radius: 10px;
+  padding: 10px 16px;
+  line-height: 1.4;
   width: 100%;
 }
 
 .lock-modal-close {
-  margin-top: 8px;
-  padding: 12px 36px;
+  margin-top: 6px;
+  padding: 10px 28px;
   background: linear-gradient(135deg, #c69a82, #a07055);
   color: #fff;
   border: none;
   border-radius: 999px;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 16px rgba(140, 90, 60, 0.3);
+  box-shadow: 0 4px 12px rgba(140, 90, 60, 0.25);
 }
 
 .lock-modal-close:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(140, 90, 60, 0.4);
+  box-shadow: 0 6px 20px rgba(140, 90, 60, 0.35);
 }
 
 .lock-modal-input-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .lock-modal-input {
   width: 100%;
-  padding: 13px 16px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
   border: 1.5px solid rgba(140, 90, 60, 0.25);
   background: rgba(255, 248, 242, 0.8);
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #5c3520;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .lock-modal-input:focus {
