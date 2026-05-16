@@ -272,31 +272,75 @@
 @media (max-width: 768px) {
   .contact-content {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 30px;
+    padding: 30px 0;
+  }
+
+  .contact-header {
+    padding: 12px 0;
   }
 
   .contact-header .container {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     gap: 12px;
   }
 
   .contact-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .back-btn, .nav-secondary {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 
   .contact-info h2,
-  .contact-form h2 {
-    font-size: 1.5rem;
+  .contact-form h2,
+  .faq-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+
+  .contact-info > p {
+    font-size: 0.95rem;
+    margin-bottom: 24px;
   }
 
   .contact-form form {
-    padding: 30px 20px;
+    padding: 20px 16px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .submit-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .faq-section {
+    padding: 30px 0;
+    margin-top: 20px;
   }
 
   .faq-grid {
     grid-template-columns: 1fr;
+    gap: 15px;
   }
+
+  .faq-item {
+    padding: 16px;
+  }
+}
 
   .social-icons {
     flex-direction: column;
@@ -305,4 +349,3 @@
   .social-link {
     text-align: center;
   }
-}

@@ -89,6 +89,11 @@ function FindUs() {
       </AnimatePresence>
 
       <main className="find-main">
+        <div className="top-left-actions">
+          <Link to="/" className="back-btn-header">
+            <span className="arrow">←</span> Return to Archive
+          </Link>
+        </div>
         <section className="find-hero">
           <motion.h1 
             initial={{ y: 30, opacity: 0 }}
@@ -173,11 +178,12 @@ function FindUs() {
           </motion.section>
 
           <motion.section 
-            className="video-section"
+            className="media-column"
             initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
+            {/* Video Frame */}
             <div className="video-frame">
               <div className="video-placeholder">
                 <video 
@@ -192,18 +198,76 @@ function FindUs() {
                   Your browser does not support the video tag.
                 </video>
                 <div className="video-caption">
-                  <p>Visual Journey to the Museum</p>
+                  <p>Visual Journey</p>
                 </div>
               </div>
+            </div>
+
+            {/* Map Frame at the Bottom of the video */}
+            <div className="video-frame map-frame-bottom">
+              <div className="video-placeholder">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3234.341505342378!2d10.63604087573615!3d35.8250000725514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x130275210c41b8a5%3A0x6b84501a5202613d!2sMus%C3%A9e%20El%20Kobba!5e0!3m2!1sen!2stn!4v1715860000000!5m2!1sen!2stn"
+                  className="museum-guide-video"
+                  allowFullScreen="" 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Musée de la Kobba Live Map"
+                  style={{ border: 0 }}
+                ></iframe>
+                <div className="video-caption">
+                  <p>Live Navigation</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="map-actions-compact">
+              <a 
+                href="https://share.google/Gct9cBnAXnwNKY4cW" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="directions-btn-small"
+              >
+                Get Directions
+              </a>
             </div>
           </motion.section>
         </div>
       </main>
 
-      <footer className="find-footer">
-        <Link to="/" className="back-btn">
-          <span className="arrow">←</span> Return to Archive
-        </Link>
+
+
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <div className="footer-item">
+            <h4>HISTORA</h4>
+          </div>
+          <div className="footer-item">
+            <h4>Navigate</h4>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/learn-more">Learn More</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact</Link>
+              </li>
+              <li>
+                <Link to="/find">Find Us</Link>
+              </li>
+            </ul>
+          </div>
+          <div className="footer-item">
+            <h4>Contact</h4>
+            <p>Email: histora.psc@gmail.com</p>
+            <p>Phone: +216 ........</p>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} HISTORA. All rights reserved.</p>
+        </div>
       </footer>
 
       {/* Expanded Image Modal */}

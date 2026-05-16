@@ -260,38 +260,96 @@
 }
 
 @media (max-width: 768px) {
+  .learn-more-content {
+    padding: 20px 0 40px;
+  }
+
+  .learn-more-header {
+    padding: 12px 0;
+  }
+
   .learn-more-header .container {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     gap: 12px;
   }
 
   .learn-more-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .back-btn, .nav-secondary {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .intro-section {
+    margin-bottom: 30px;
   }
 
   .intro-section h2 {
-    font-size: 2rem;
+    font-size: 1.6rem;
+    margin-bottom: 12px;
   }
 
-  .benefits-grid {
-    grid-template-columns: 1fr;
+  .intro-section p {
+    font-size: 0.95rem;
   }
 
-  .features-list {
+  .benefits-section h2,
+  .features-section h2,
+  .process-section h2,
+  .cta-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .benefits-grid, .features-list {
     grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .benefit-card, .feature-item {
+    padding: 16px;
+  }
+
+  .benefit-card h3, .feature-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .benefit-card p, .feature-item p {
+    font-size: 0.85rem;
+  }
+
+  .process-section {
+    padding: 20px 16px;
+    margin-bottom: 30px;
+  }
+
+  .process-section p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+
+  .cta-section {
+    padding: 30px 16px;
+  }
+
+  .cta-section p {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
   }
 
   .cta-buttons {
     flex-direction: column;
     align-items: center;
+    gap: 12px;
   }
 
-  .process-section {
-    padding: 30px 20px;
-  }
-
-  .cta-section {
-    padding: 40px 20px;
+  .btn-primary, .btn-secondary {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: center;
   }
 }

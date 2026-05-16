@@ -13,6 +13,12 @@ body {
   color: #2a2f28;
 }
 
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* Global downscale from default 16px */
+  }
+}
+
 .app-root {
   width: 100%;
   min-height: 100vh;
@@ -157,7 +163,7 @@ body {
 }
 
 .hamburger-line.active:nth-child(1) {
-  transform: translateY(11px) rotate(45deg);
+  transform: translateY(8.5px) rotate(45deg);
 }
 
 .hamburger-line.active:nth-child(2) {
@@ -166,7 +172,7 @@ body {
 }
 
 .hamburger-line.active:nth-child(3) {
-  transform: translateY(-11px) rotate(-45deg);
+  transform: translateY(-8.5px) rotate(-45deg);
 }
 
 /* Mobile Menu */
@@ -817,7 +823,7 @@ body {
   .top-nav {
     display: flex;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding: 10px 16px;
   }
 
   .nav-spacer {
@@ -825,7 +831,11 @@ body {
   }
 
   .brand {
-    font-size: 20px;
+    font-size: 1.2rem;
+  }
+
+  .brand img {
+    height: 32px;
   }
 
   .menu {
@@ -838,15 +848,91 @@ body {
 
   .hamburger {
     display: flex;
+    gap: 6px;
+  }
+
+  .hamburger-line {
+    width: 20px;
+    height: 2.5px;
   }
 
   .mobile-menu {
     display: flex;
+    top: 52px;
+  }
+
+  .hero-content {
+    padding: 30px 18px;
+    margin-top: -20px;
+    border-radius: 12px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .hero-text {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
   }
 
   .hero-actions {
     flex-direction: column;
     align-items: center;
+    gap: 10px;
+  }
+
+  .search-input {
+    min-width: 240px;
+    padding: 10px 15px;
+    font-size: 0.85rem;
+  }
+
+  .btn-primary {
+    min-width: 160px;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+
+  .features {
+    padding: 40px 16px;
+  }
+
+  .intro-card {
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+
+  .intro-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .intro-card p {
+    font-size: 0.9rem;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .info-card {
+    border-radius: 8px;
+  }
+
+  .card-text {
+    padding: 10px;
+  }
+
+  .card-text h3 {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+
+  .btn-tertiary {
+    padding: 6px 12px;
+    font-size: 0.75rem;
   }
 }
 
@@ -854,7 +940,7 @@ body {
   margin-top: 40px;
   background: #8c5a3cb8;
   color: #fff5ee;
-  padding: 32px 24px;
+  padding: 24px 16px;
 }
 
 .footer-grid {
@@ -866,16 +952,16 @@ body {
 }
 
 .footer-item h4 {
-  margin: 0 0 10px;
-  font-size: 1.1rem;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
   color: #f0f8ef;
 }
 
 .footer-item p,
 .footer-item li {
   color: #d7e3d4;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.5;
 }
 
 .footer-item ul {
@@ -929,75 +1015,7 @@ body {
   }
 }
 
-/* Find Us Page Styles */
-.find-us-container {
-  min-height: 100vh;
-  background: var(--bg-dark);
-  color: var(--text-light);
-  font-family: 'Inter', sans-serif;
-}
-
-.find-main {
-  padding: 20px 5% 60px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.find-hero {
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-.find-hero h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 300;
-  letter-spacing: -1px;
-  margin-bottom: 15px;
-  background: linear-gradient(to right, #fff, #aaa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.find-hero p {
-  color: var(--accent-gold);
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-}
-
-.find-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.guide-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 50px;
-  border-radius: 24px;
-  backdrop-filter: blur(10px);
-}
-
-.guide-label {
-  display: inline-block;
-  padding: 6px 16px;
-  background: rgba(212, 175, 55, 0.1);
-  color: var(--accent-gold);
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 25px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.guide-card h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-  font-weight: 400;
-}
+/* Removed duplicated Find Us styles - now in FindUs.css */
 
 .guide-card > p {
   color: #999;

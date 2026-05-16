@@ -626,32 +626,6 @@
   letter-spacing: 0.05em;
 }
 
-
-
-@media (max-width: 768px) {
-  .floating-nav-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
-  }
-
-  .expanded-slide {
-    padding: 20px;
-  }
-
-   .modal-image-container {
-    padding: 20px;
-  }
-
-  .floating-nav-btn.prev-btn {
-    left: 8px;
-  }
-
-  .floating-nav-btn.next-btn {
-    right: 8px;
-  }
-}
-
 @media (max-width: 1024px) {
   .experience-grid {
     grid-template-columns: 1fr 1fr;
@@ -661,33 +635,125 @@
 @media (max-width: 768px) {
   .experience-grid {
     grid-template-columns: 1fr;
+    padding: 12px;
+    gap: 12px;
   }
 
   .property-content {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 16px;
+    padding: 16px 0;
+  }
+
+  .detail-header {
+    padding: 10px 0;
   }
 
   .detail-header .container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
   }
 
   .detail-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .back-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .main-image-container, 
+  .main-image {
+    height: 220px;
+  }
+
+  .property-overview,
+  .property-features,
+  .experience-section {
+    padding: 12px;
+    border-radius: 7px;
+  }
+
+  .experience-card {
+    padding: 10px;
+    border-radius: 7px;
+    gap: 8px;
+  }
+
+  .property-overview h2,
+  .property-features h3,
+  .experience-section h2 {
+    font-size: 1.0rem;
+    margin-bottom: 8px;
+  }
+
+  .description {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .spec-item {
+    padding: 5px 8px;
+    font-size: 0.75rem;
   }
 
   .property-specs {
     grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .gallery-thumbs {
     overflow-x: auto;
-    padding-bottom: 8px;
+    padding: 5px;
+    gap: 5px;
   }
 
-  .gallery-thumbs img {
-    flex-shrink: 0;
+  .thumb-image {
+    width: 45px;
+    height: 34px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .experience-card h3 {
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+  }
+
+  .experience-card p {
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+
+  .experience-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    border-radius: 6px;
+  }
+
+  .experience-preview {
+    min-height: 120px;
+  }
+
+  .experience-video {
+    max-height: 140px;
+  }
+
+  .floating-nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+  }
+
+  .expanded-slide, .modal-image-container {
+    padding: 10px;
   }
 }
