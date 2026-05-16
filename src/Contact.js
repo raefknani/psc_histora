@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "./images/logo_psc-removebg-preview.png";
+import { supabase } from "./utils/supabase";
 import "./Contact.css";
 import "./psc.css";
 
@@ -15,6 +16,8 @@ function Contact() {
     subject: "",
     message: "",
   });
+  const [submitStatus, setSubmitStatus] = useState(null); // null | 'loading' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState("");
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const closeMobileMenu = () => setMobileMenuOpen(false);
@@ -26,16 +29,41 @@ function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Thank you for your message! We will get back to you soon.");
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
+    setSubmitStatus("loading");
+    setErrorMessage("");
+
+    if (!supabase) {
+      setSubmitStatus("error");
+      setErrorMessage("Service unavailable. Please try again later.");
+      return;
+    }
+
+    const { error } = await supabase.from("contact_messages").insert([
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        subject: formData.subject,
+        message: formData.message,
+      },
+    ]);
+
+    if (error) {
+      console.error("Contact form submission error:", error);
+      setSubmitStatus("error");
+      setErrorMessage("Something went wrong. Please try again or email us directly.");
+    } else {
+      setSubmitStatus("success");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    }
   };
 
   return (
@@ -144,7 +172,36 @@ function Contact() {
                 <label htmlFor="message">Message *</label>
                 <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="6" required></textarea>
               </div>
-              <button type="submit" className="submit-btn">Send Message</button>
+              <button
+                type="submit"
+                className="submit-btn"
+                disabled={submitStatus === "loading"}
+                style={{ opacity: submitStatus === "loading" ? 0.7 : 1, cursor: submitStatus === "loading" ? "not-allowed" : "pointer" }}
+              >
+                {submitStatus === "loading" ? "Sending…" : "Send Message"}
+              </button>
+
+              {submitStatus === "success" && (
+                <motion.div
+                  className="form-status success"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  ✅ Thank you! Your message has been sent. We'll get back to you soon.
+                </motion.div>
+              )}
+
+              {submitStatus === "error" && (
+                <motion.div
+                  className="form-status error"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  ❌ {errorMessage}
+                </motion.div>
+              )}
             </form>
           </motion.div>
         </div>

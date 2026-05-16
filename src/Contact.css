@@ -203,10 +203,31 @@
   transition: all 0.3s ease;
 }
 
-.submit-btn:hover {
+.submit-btn:hover:not(:disabled) {
   background: #7c4c33;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(140, 90, 60, 0.3);
+}
+
+.form-status {
+  margin-top: 16px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.form-status.success {
+  background: rgba(46, 125, 50, 0.1);
+  border: 1px solid rgba(46, 125, 50, 0.35);
+  color: #1b5e20;
+}
+
+.form-status.error {
+  background: rgba(183, 28, 28, 0.08);
+  border: 1px solid rgba(183, 28, 28, 0.3);
+  color: #b71c1c;
 }
 
 .faq-section {
