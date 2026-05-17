@@ -65,6 +65,32 @@ function Psc() {
     return () => clearInterval(interval);
   }, [isUnlocked]);
 
+  // Auto-scroll to cards if user doesn't scroll within 5 seconds
+  useEffect(() => {
+    let scrolled = false;
+
+    const handleScroll = () => {
+      scrolled = true;
+      window.removeEventListener("scroll", handleScroll);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    const timer = setTimeout(() => {
+      if (!scrolled) {
+        const featuresSection = document.getElementById("about");
+        if (featuresSection) {
+          featuresSection.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, 8000);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timer);
+    };
+  }, []);
+
   const closeModal = () => {
     setShowLockedModal(false);
     setPasswordInput('');
