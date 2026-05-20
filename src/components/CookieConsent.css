@@ -1,0 +1,102 @@
+.cookie-consent-overlay {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* Let clicks pass through outside the banner */
+}
+
+.cookie-consent-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(140, 90, 60, 0.2);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 10px 40px rgba(140, 90, 60, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+  pointer-events: auto; /* Re-enable clicks on the banner */
+}
+
+@media (min-width: 768px) {
+  .cookie-consent-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px;
+  }
+}
+
+.cookie-content h4 {
+  margin: 0 0 8px 0;
+  color: #5c3520;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.cookie-content p {
+  margin: 0;
+  color: #4d614f;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cookie-actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn-decline {
+  background: transparent;
+  color: #8c5a3c;
+  border: 1.5px solid rgba(140, 90, 60, 0.3);
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-decline:hover {
+  background: rgba(140, 90, 60, 0.08);
+  border-color: #8c5a3c;
+}
+
+.btn-accept {
+  background: #8c5a3c;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(140, 90, 60, 0.2);
+}
+
+.btn-accept:hover {
+  background: #7c4c33;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(140, 90, 60, 0.3);
+}
+
+@media (max-width: 480px) {
+  .cookie-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-decline, .btn-accept {
+    width: 100%;
+  }
+}
