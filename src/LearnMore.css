@@ -199,21 +199,23 @@
 .cta-section {
   text-align: center;
   background: linear-gradient(135deg, #f2dec8, #d9b8a2);
-  color: white;
+  color: #5c3520;
   padding: 50px 40px;
   border-radius: 20px;
   box-shadow: 0 12px 28px rgba(140, 90, 60, 0.2);
 }
 
 .cta-section h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 15px;
+  color: #5c3520;
 }
 
 .cta-section p {
   font-size: 1.1rem;
   margin-bottom: 30px;
-  opacity: 0.9;
+  color: #8c6a55;
+  font-weight: 500;
 }
 
 .cta-buttons {
@@ -223,40 +225,53 @@
   gap: 20px;
 }
 
-.btn-primary {
-  background: white;
-  color: #2e623d;
+.cta-section .btn-primary {
+  background: #8c5a3c;
+  color: white;
   border: none;
-  padding: 14px 28px;
-  border-radius: 8px;
+  padding: 14px 32px;
+  border-radius: 100px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(140, 90, 60, 0.2);
+  min-width: 180px;
 }
 
-.btn-primary:hover {
-  background: #f7e5d9;
+.cta-section .btn-primary:hover {
+  background: #7c4c33;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(140, 90, 60, 0.3);
 }
 
-.btn-secondary {
+.cta-section .btn-secondary {
   background: transparent;
-  color: white;
-  border: 2px solid white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
+  color: #8c5a3c;
+  border: 2px solid #8c5a3c;
+  padding: 12px 30px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 1.05rem;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
+  min-width: 180px;
+  margin-top: 0;
 }
 
-.btn-secondary:hover {
-  background: white;
-  color: #8c5a3c;
+.cta-section .btn-secondary:hover {
+  background: #8c5a3c;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(140, 90, 60, 0.2);
 }
 
 @media (max-width: 768px) {
@@ -346,7 +361,7 @@
     gap: 12px;
   }
 
-  .btn-primary, .btn-secondary {
+  .cta-section .btn-primary, .cta-section .btn-secondary {
     padding: 12px 20px;
     font-size: 0.9rem;
     width: 100%;
