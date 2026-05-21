@@ -430,7 +430,10 @@ function Psc() {
       <footer className="site-footer">
         <div className="footer-grid">
           <div className="footer-item">
-            <h4>HISTORA</h4>
+            <div className="footer-brand">
+              <img src={logo} alt="Histora Logo" />
+              <h4>HISTORA</h4>
+            </div>
             {/* <p>
               Premium eco-home marketplace focused on sustainability and
               comfort.

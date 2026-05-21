@@ -129,7 +129,7 @@ function FindUs() {
               className="map-image"
             />
             <div className="expand-hint">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="15 3 21 3 21 9"></polyline>
                 <polyline points="9 21 3 21 3 15"></polyline>
                 <line x1="21" y1="3" x2="14" y2="10"></line>
@@ -240,7 +240,10 @@ function FindUs() {
       <footer className="site-footer">
         <div className="footer-grid">
           <div className="footer-item">
-            <h4>HISTORA</h4>
+            <div className="footer-brand">
+              <img src={logo} alt="Histora Logo" />
+              <h4>HISTORA</h4>
+            </div>
           </div>
           <div className="footer-item">
             <h4>Navigate</h4>

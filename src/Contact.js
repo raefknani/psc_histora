@@ -206,6 +206,42 @@ function Contact() {
           </motion.div>
         </div>
       </div>
+
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <div className="footer-item">
+            <div className="footer-brand">
+              <img src={logo} alt="Histora Logo" />
+              <h4>HISTORA</h4>
+            </div>
+          </div>
+          <div className="footer-item">
+            <h4>Navigate</h4>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/learn-more">Learn More</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact</Link>
+              </li>
+              <li>
+                <Link to="/find">Find Us</Link>
+              </li>
+            </ul>
+          </div>
+          <div className="footer-item">
+            <h4>Contact</h4>
+            <p>Email: histora.psc@gmail.com</p>
+            <p>Phone: +216 ........</p>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} HISTORA. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
