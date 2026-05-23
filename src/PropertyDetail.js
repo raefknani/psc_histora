@@ -503,7 +503,7 @@ function PropertyDetail() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <h3>Description</h3>
+          <h3>Description (the story behind this scene)</h3>
           <div 
             className="description description-long"
             dir={selectedLanguage === "AR" ? "rtl" : "ltr"}
