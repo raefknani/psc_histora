@@ -596,6 +596,43 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+.card-media-badges {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 5; /* Above the image and potential overlay */
+}
+
+.card-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  color: #8c5a3c;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-badge:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+}
+
+.card-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
 .btn-tertiary--locked {
   opacity: 0.8;
   cursor: pointer;
