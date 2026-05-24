@@ -194,7 +194,7 @@ function LearnMore() {
           <div className="footer-item">
             <h4>Contact</h4>
             <p>Email: histora.psc@gmail.com</p>
-            <p>Phone: +216 ........</p>
+            <p>Phone: +216 52 267 493</p>
           </div>
         </div>
         <div className="footer-bottom">

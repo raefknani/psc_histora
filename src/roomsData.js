@@ -25,7 +25,9 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275378/atelierTissage_img005_vtxh5p.jpg",
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275379/atelierTissage_img006_konhor.jpg"
     ],
-    "videos": [],
+    "videos": [
+      "https://res.cloudinary.com/def04uybd/video/upload/v1779661370/atelierTissage_sim_bghtij.mp4"
+    ],
     "model3d": "",
     "button": "View",
     "locked": false
@@ -120,7 +122,7 @@ const roomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   },
   {
     "id": 7,
@@ -132,7 +134,9 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275411/huilerie_img002_yjgmvf.jpg",
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275412/huilerie_img003_a3pz2j.jpg"
     ],
-    "videos": [],
+    "videos": [
+      "https://res.cloudinary.com/def04uybd/video/upload/v1779661408/huilerie_sim_ppebtp.mp4"
+    ],
     "model3d": "",
     "button": "View",
     "locked": false
@@ -185,7 +189,9 @@ const roomsData = [
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275435/marche_img013_pax0g2.jpg",
       "https://res.cloudinary.com/def04uybd/image/upload/v1778275435/marche_img014_hiwlyk.jpg"
     ],
-    "videos": [],
+    "videos": [
+      "https://res.cloudinary.com/def04uybd/video/upload/v1779661484/marche_sim_rndnew.mp4"
+    ],
     "model3d": "https://res.cloudinary.com/def04uybd/raw/upload/v1778616312/marche_3D_View_tkbbqc.stl",
     "button": "View",
     "locked": false

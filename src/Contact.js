@@ -133,11 +133,19 @@ function Contact() {
               </div>
               <div className="contact-item">
                 <h3>📞 Phone</h3>
-                <p>+216 ........</p>
+                <p>+216 52 267 493</p>
               </div>
               <div className="contact-item">
                 <h3>✉️ Email</h3>
                 <p>histora.psc@gmail.com</p>
+              </div>
+              <div className="contact-item">
+                <h3>🕒 Working Hours</h3>
+                <p>
+                  Mon-Thu, Sat: 08:45 – 16:45<br />
+                  Sun: 08:45 – 14:15<br />
+                  Fri: Closed
+                </p>
               </div>
             </div>
           </motion.div>
@@ -235,7 +243,7 @@ function Contact() {
           <div className="footer-item">
             <h4>Contact</h4>
             <p>Email: histora.psc@gmail.com</p>
-            <p>Phone: +216 ........</p>
+            <p>Phone: +216 52 267 493</p>
           </div>
         </div>
         <div className="footer-bottom">

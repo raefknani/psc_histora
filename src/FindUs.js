@@ -120,11 +120,11 @@ function FindUs() {
         >
           <div 
             className="map-wrapper map-wrapper--hero"
-            onClick={() => setExpandedImage("https://res.cloudinary.com/def04uybd/image/upload/q_auto/f_auto/v1778613073/muse_map_nffg7g.png")}
+            onClick={() => setExpandedImage("https://res.cloudinary.com/def04uybd/image/upload/q_auto/f_auto/v1779661576/muse_map_uhkkgu.jpg")}
             style={{ cursor: "zoom-in" }}
           >
             <img 
-              src="https://res.cloudinary.com/def04uybd/image/upload/q_auto/f_auto/v1778613073/muse_map_nffg7g.png" 
+              src="https://res.cloudinary.com/def04uybd/image/upload/q_auto/f_auto/v1779661576/muse_map_uhkkgu.jpg" 
               alt="Museum Location Map" 
               className="map-image"
             />
@@ -265,7 +265,7 @@ function FindUs() {
           <div className="footer-item">
             <h4>Contact</h4>
             <p>Email: histora.psc@gmail.com</p>
-            <p>Phone: +216 ........</p>
+            <p>Phone: +216 52 267 493</p>
           </div>
         </div>
         <div className="footer-bottom">
