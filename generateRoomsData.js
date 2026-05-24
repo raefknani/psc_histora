@@ -1,6 +1,16 @@
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
+const CryptoJS = require("crypto-js");
 require("dotenv").config();
+
+// Define our secret key. We fallback to a default during script execution 
+// if not set, but in production the React app MUST have the secret.
+const SECRET_KEY = process.env.REACT_APP_MEDIA_SECRET || "histora_secret_encryption_key_2026";
+
+function encryptLink(url) {
+  if (!url) return url;
+  return CryptoJS.AES.encrypt(url, SECRET_KEY).toString();
+}
 
 // Cloudinary config
 cloudinary.config({
@@ -180,7 +190,7 @@ async function generateRoomsData() {
           }
         } else if (isSTL) {
           console.log(`  Found 3D model for "${category}": ${name}`);
-          rooms[category].model3d = resource.secure_url;
+          rooms[category].model3d = encryptLink(resource.secure_url);
         }
       }
     }
@@ -219,7 +229,7 @@ async function generateRoomsData() {
           };
         }
 
-        const url = resource.secure_url;
+        const url = encryptLink(resource.secure_url);
 
         if (resource_type === "image") {
           rooms[category].gallery = rooms[category].gallery || [];
@@ -273,7 +283,16 @@ async function generateRoomsData() {
 
     // Safety: only write if we actually found rooms
     if (roomsData.length > 0) {
-      const fileContent = `const roomsData = ${JSON.stringify(roomsData, null, 2)};\n\nexport default roomsData;\n`;
+      const fileContent = `import { decryptMedia } from "./utils/decryptMedia";\n\n` +
+        `const rawRoomsData = ${JSON.stringify(roomsData, null, 2)};\n\n` +
+        `const roomsData = rawRoomsData.map(room => ({\n` +
+        `  ...room,\n` +
+        `  img: decryptMedia(room.img),\n` +
+        `  gallery: room.gallery ? room.gallery.map(decryptMedia) : [],\n` +
+        `  videos: room.videos ? room.videos.map(decryptMedia) : [],\n` +
+        `  model3d: decryptMedia(room.model3d)\n` +
+        `}));\n\n` +
+        `export default roomsData;\n`;
       fs.writeFileSync("./src/roomsData.js", fileContent);
       console.log("\n✅ roomsData.js generated successfully!");
       console.log(`   Rooms written: ${roomsData.length}`);

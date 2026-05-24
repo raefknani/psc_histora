@@ -33,6 +33,7 @@ jobs:
           REACT_APP_SUPABASE_PUBLISHABLE_KEY: ${{ vars.REACT_APP_SUPABASE_PUBLISHABLE_KEY }}
           REACT_APP_UNLOCK_PASSWORD: ${{ secrets.REACT_APP_UNLOCK_PASSWORD }}
           CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
+          REACT_APP_MEDIA_SECRET: ${{ secrets.REACT_APP_MEDIA_SECRET }}
           # Add any other secrets here if they are needed for the build
         run: npm run build
 

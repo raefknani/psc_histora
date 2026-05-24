@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "cloudinary": "^2.10.0",
     "cross-env": "^10.1.0",
+    "crypto-js": "^4.2.0",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "nodemailer": "^8.0.7",
