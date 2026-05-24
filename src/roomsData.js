@@ -217,7 +217,7 @@ const rawRoomsData = [
     "videos": [],
     "model3d": "",
     "button": "View",
-    "locked": false
+    "locked": true
   },
   {
     "id": 11,
